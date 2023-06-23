@@ -89,9 +89,9 @@ You can now access this `_index.md`'s' content in your list template:
 <main>
   <article>
     <header>
-      <h1>{{ .Title} }</h1>
+      <h1>{{ .Title }}</h1>
     </header>
-    <!-- "{{ .Content} }" pulls from the markdown content of the corresponding _index.md -->
+    <!-- "{{ .Content }}" pulls from the markdown content of the corresponding _index.md -->
     {{ .Content }}
   </article>
   <ul>
