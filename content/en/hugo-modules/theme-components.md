@@ -12,6 +12,9 @@ aliases: [/themes/customize/,/themes/customizing/]
 toc: true
 ---
 
+
+
+
 {{% note %}}
 This section contain information that may be outdated and is in the process of being rewritten.
 {{% /note %}}
