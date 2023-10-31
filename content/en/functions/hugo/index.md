@@ -34,20 +34,26 @@ aliases: [/functions/hugo]
 `hugo.Generator`
 : (`template.HTML`) Renders an HTML `meta` element identifying the software that generated the site (e.g., `<meta name="generator" content="Hugo 0.112.0">`).
 
-`hugo.GoVersion`
-: (`string`) The Go version used to compile the Hugo binary (e.g., `go1.20.4`). {{< new-in "0.101.0" >}}
+`hugo.GoVersion` {{< new-in "0.101.0" >}}
+: (`string`) The Go version used to compile the Hugo binary (e.g., `go1.20.4`).
+
+`hugo.IsDevelopment` {{< new-in "0.120.0" >}}
+: (`bool`) Returns `true` if `hugo.Environment` is "development".
 
 `hugo.IsExtended`
 : (`bool`) Returns `true` if the Hugo binary is the extended version.
 
 `hugo.IsProduction`
-: (`bool`) Returns `true` if `hugo.Environment` is set to the production environment.
+: (`bool`) Returns `true` if `hugo.Environment` is "production".
+
+`hugo.IsServer` {{< new-in "0.120.0" >}}
+: (`bool`) Returns `true` if the site is being served with Hugo's built-in server.
 
 `hugo.Version`
 : (`hugo.VersionString`) The current version of the Hugo binary (e.g., `0.112.1`).
 
-`hugo.WorkingDir`
-: (`string`) The project working directory (e.g., `/home/user/projects/my-hugo-site`). {{< new-in "0.112.0" >}}
+`hugo.WorkingDir` {{< new-in "0.112.0" >}}
+: (`string`) The project working directory (e.g., `/home/user/projects/my-hugo-site`).
 
 ## hugo.Deps
 

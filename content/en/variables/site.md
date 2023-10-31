@@ -35,20 +35,11 @@ All the methods below, e.g. `.Site.RegularPages` can also be reached via the glo
 .Site.Data
 : custom data, see [Data Templates](/templates/data-templates/).
 
-.Site.DisqusShortname
-: a string representing the shortname of the Disqus shortcode as defined in the site configuration.
-
-.Site.GoogleAnalytics
-: a string representing your tracking code for Google Analytics as defined in the site configuration.
-
 .Site.Home
 : reference to the homepage's [page object](/variables/page/)
 
 .Site.IsMultiLingual
 : whether there are more than one language in this site. See [Multilingual](/content-management/multilingual/) for more information.
-
-.Site.IsServer
-: a boolean to indicate if the site is being served with Hugo's built-in server. See [`hugo server`](/commands/hugo_server/) for more information.
 
 .Site.Language.Lang
 : the language code of the current locale (e.g., `en`).
