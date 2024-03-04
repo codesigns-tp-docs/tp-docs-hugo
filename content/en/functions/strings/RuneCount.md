@@ -1,21 +1,17 @@
 ---
 title: strings.RuneCount
-description: Returns the number of runes in a string.
-categories: [functions]
+description: Returns the number of runes in the given string.
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: []
+  related:
+    - functions/go-template/len
+    - functions/strings/Count
+    - functions/strings/CountRunes
+    - functions/strings/CountWords
   returnType: int
   signatures: [strings.RuneCount INPUT]
-relatedFunctions:
-  - len
-  - strings.Count
-  - strings.CountRunes
-  - strings.CountWords
-  - strings.RuneCount
 aliases: [/functions/strings.runecount]
 ---
 
@@ -25,4 +21,4 @@ In contrast with the [`strings.CountRunes`] function, which excludes whitespace,
 {{ "Hello, 世界" | strings.RuneCount }} → 9
 ```
 
-[`strings.CountRunes`]: /functions/strings/countrunes
+[`strings.CountRunes`]: /functions/strings/countrunes/

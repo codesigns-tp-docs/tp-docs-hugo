@@ -1,16 +1,13 @@
 ---
 title: debug.Dump
 description: Returns an object dump as a string.
-categories: [functions]
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: []
+  related: []
   returnType: string
   signatures: [debug.Dump VALUE]
-relatedFunctions: []
 ---
 
 ```go-html-template
@@ -18,7 +15,7 @@ relatedFunctions: []
 {{ $p := "data/books.json" }}
 {{ with resources.Get $p }}
   {{ $opts := dict "delimiter" "," }}
-  {{ $data = . | transform.Unmarshal $opts }}
+  {{ $data = .Content | transform.Unmarshal $opts }}
 {{ else }}
   {{ errorf "Unable to get resource %q" $p }}
 {{ end }}
@@ -42,8 +39,6 @@ relatedFunctions: []
   },
 }
 ```
-
-
 
 {{% note %}}
 Output from this function may change from one release to the next. Use for debugging only.

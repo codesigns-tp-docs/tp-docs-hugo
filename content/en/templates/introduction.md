@@ -2,15 +2,15 @@
 title: Templating
 linkTitle: Templating
 description: Hugo uses Go's `html/template` and `text/template` libraries as the basis for the templating.
-categories: [fundamentals,templates]
+categories: [templates,fundamentals]
 keywords: [go]
 menu:
   docs:
     parent: templates
     weight: 20
 weight: 20
-aliases: [/layouts/introduction/,/layout/introduction/, /templates/go-templates/]
 toc: true
+aliases: [/layouts/introduction/,/layout/introduction/, /templates/go-templates/]
 ---
 
 {{% note %}}
@@ -28,7 +28,6 @@ Go Templates are HTML files with the addition of [variables][variables] and [fun
 A _predefined variable_ could be a variable already existing in the
 current scope (like the `.Title` example in the [Variables](#variables) section below) or a custom variable (like the
 `$address` example in that same section).
-
 
 ```go-html-template
 {{ .Title }}
@@ -80,7 +79,7 @@ Line two.` }}
 ## Variables
 
 Each Go Template gets a data object. In Hugo, each template is passed
-a `Page`.  In the below example, `.Title` is one of the elements
+a `Page`. In the below example, `.Title` is one of the elements
 accessible in that [`Page` variable][pagevars].
 
 With the `Page` being the default scope of a template, the `Title`
@@ -216,7 +215,7 @@ element's index.
 
 ```go-html-template
 {{ range $elem_index, $elem_val := $array }}
-   {{ $elem_index }} -- {{ $elem_val }}
+  {{ $elem_index }} -- {{ $elem_val }}
 {{ end }}
 ```
 
@@ -227,7 +226,7 @@ key.
 
 ```go-html-template
 {{ range $elem_key, $elem_val := $map }}
-   {{ $elem_key }} -- {{ $elem_val }}
+  {{ $elem_key }} -- {{ $elem_val }}
 {{ end }}
 ```
 
@@ -275,7 +274,6 @@ It skips the block if the variable is absent, or if it evaluates to
 
 Below snippet uses the "description" front-matter parameter's value if
 set, else uses the default `.Summary` [Page variable][pagevars]:
-
 
 ```go-html-template
 {{ with .Param "description" }}
@@ -350,7 +348,6 @@ The following two examples are functionally the same:
 {{ shuffle (seq 1 5) }}
 ```
 
-
 ```go-html-template
 {{ (seq 1 5) | shuffle }}
 ```
@@ -398,7 +395,7 @@ following:
 
 The following shows how to define a variable independent of the context.
 
-{{< code file="tags-range-with-page-variable.html" >}}
+{{< code file=tags-range-with-page-variable.html >}}
 {{ $title := .Site.Title }}
 <ul>
 {{ range .Params.tags }}
@@ -418,7 +415,7 @@ Notice how once we have entered the loop (i.e. `range`), the value of `{{ . }}` 
 
 `$` has special significance in your templates. `$` is set to the starting value of `.` ("the dot") by default. This is a [documented feature of Go text/template][dotdoc]. This means you have access to the global context from anywhere. Here is an equivalent example of the preceding code block but now using `$` to grab `.Site.Title` from the global context:
 
-{{< code file="range-through-tags-w-global.html" >}}
+{{< code file=range-through-tags-w-global.html >}}
 <ul>
 {{ range .Params.tags }}
   <li>
@@ -429,7 +426,7 @@ Notice how once we have entered the loop (i.e. `range`), the value of `{{ . }}` 
 </ul>
 {{< /code >}}
 
-{{% warning "Don't Redefine the Dot" %}}
+{{% note %}}
 The built-in magic of `$` would cease to work if someone were to mischievously redefine the special character; e.g. `{{ $ := .Site }}`. *Don't do it.* You may, of course, recover from this mischief by using `{{ $ := . }}` in a global context to reset `$` to its default value.
 {{% /note %}}
 
@@ -469,9 +466,9 @@ Which then outputs:
 
 Go considers the following characters _whitespace_:
 
-* <kbd>space</kbd>
-* horizontal <kbd>tab</kbd>
-* carriage <kbd>return</kbd>
+* space
+* horizontal tab
+* carriage return
 * newline
 
 ## Comments
@@ -525,7 +522,7 @@ The templating engine will strip the content within the HTML comment, but will f
 
 ## Hugo parameters
 
-Hugo provides the option of passing values to your template layer through your [site configuration][config] (i.e. for site-wide values) or through the metadata of each specific piece of content (i.e. the [front matter]). You can define any values of any type and use them however you want in your templates, as long as the values are supported by the [front matter format](/content-management/front-matter#front-matter-formats).
+Hugo provides the option of passing values to your template layer through your [site configuration][config] (i.e. for site-wide values) or through the metadata of each specific piece of content (i.e. the [front matter]).
 
 ## Use content (`Page`) parameters
 
@@ -535,14 +532,15 @@ An example of this is used in the Hugo docs. Most of the pages benefit from havi
 
 Here is the example front matter:
 
-{{< code-toggle file="content/example.md" fm=true copy=false >}}
-title: Example
-notoc: true
+{{< code-toggle file=content/example.md fm=true >}}
+title = 'Example'
+[params]
+  notoc = true
 {{< /code-toggle >}}
 
 Here is an example of corresponding code that could be used inside a `toc.html` [partial template][partials]:
 
-{{< code file="layouts/partials/toc.html" >}}
+{{< code file=layouts/partials/toc.html >}}
 {{ if not .Params.notoc }}
 <aside>
   <header>
@@ -564,7 +562,7 @@ You can arbitrarily define as many site-level parameters as you want in your [si
 
 For instance, you might declare the following:
 
-{{< code-toggle file="hugo" >}}
+{{< code-toggle file=hugo >}}
 params:
   copyrighthtml: "Copyright &#xA9; 2017 John Doe. All Rights Reserved."
   twitteruser: "spf13"
@@ -583,7 +581,7 @@ Within a footer layout, you might then declare a `<footer>` that is only rendere
 
 An alternative way of writing the "`if`" and then referencing the same value is to use [`with`] instead. `with` rebinds the context (`.`) within its scope and skips the block if the variable is absent:
 
-{{< code file="layouts/partials/twitter.html" >}}
+{{< code file=layouts/partials/twitter.html >}}
 {{ with .Site.Params.twitteruser }}
     <div>
         <a href="https://twitter.com/{{ . }}" rel="author">
@@ -599,7 +597,7 @@ Finally, you can pull "magic constants" out of your layouts as well. The followi
   <h1>Recent Posts</h1>
   <ul>
   {{- range first .Site.Params.SidebarRecentLimit .Site.Pages -}}
-      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
   {{- end -}}
   </ul>
 </nav>
@@ -617,17 +615,18 @@ content/
     └── event-3.md
 ```
 
-{{< code-toggle file="content/events/event-1.md" copy=false >}}
+{{< code-toggle file=content/events/event-1.md >}}
 title = 'Event 1'
 date = 2021-12-06T10:37:16-08:00
 draft = false
+[params]
 start_date = 2021-12-05T09:00:00-08:00
 end_date = 2021-12-05T11:00:00-08:00
 {{< /code-toggle >}}
 
 This [partial template][partials] renders future events:
 
-{{< code file="layouts/partials/future-events.html" >}}
+{{< code file=layouts/partials/future-events.html >}}
 <h2>Future Events</h2>
 <ul>
   {{ range where site.RegularPages "Type" "events" }}
@@ -643,7 +642,7 @@ This [partial template][partials] renders future events:
 
 If you restrict front matter to the TOML format, and omit quotation marks surrounding date fields, you can perform date comparisons without casting.
 
-{{< code file="layouts/partials/future-events.html" >}}
+{{< code file=layouts/partials/future-events.html >}}
 <h2>Future Events</h2>
 <ul>
   {{ range where (where site.RegularPages "Type" "events") "Params.start_date" "gt" now }}
@@ -655,21 +654,21 @@ If you restrict front matter to the TOML format, and omit quotation marks surrou
 </ul>
 {{< /code >}}
 
-[`first`]: /functions/collections/first
-[`index`]: /functions/collections/indexfunction
-[`isset`]: /functions/collections/isset
-[config]: /getting-started/configuration
+[`first`]: /functions/collections/first/
+[`index`]: /functions/collections/indexfunction/
+[`isset`]: /functions/collections/isset/
+[config]: /getting-started/configuration/
 [dotdoc]: https://golang.org/pkg/text/template/#hdr-Variables
-[front matter]: /content-management/front-matter
-[functions]: /functions
+[front matter]: /content-management/front-matter/
+[functions]: /functions/
 [identifier]: /getting-started/glossary/#identifier
-[internal templates]: /templates/internal
-[math]: /functions/math
-[pagevars]: /variables/page
-[param]: /functions/param
-[partials]: /templates/partials
-[relpermalink]: /variables/page#page-variables
-[`safehtml`]: /functions/safe/html
-[sitevars]: /variables/site
-[variables]: /variables
-[`with`]: /functions/go-template/with
+[internal templates]: /templates/internal/
+[math]: /functions/math/
+[pagevars]: /methods/page/
+[param]: /methods/page/param/
+[partials]: /templates/partials/
+[relpermalink]: /methods/page/relpermalink/
+[`safehtml`]: /functions/safe/html/
+[sitevars]: /methods/site/
+[variables]: /methods/
+[`with`]: /functions/go-template/with/
