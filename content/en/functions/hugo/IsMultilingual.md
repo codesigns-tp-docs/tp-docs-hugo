@@ -1,14 +1,13 @@
 ---
-title: hugo.IsMultihost
-description: Reports whether each configured language has a unique base URL.
+title: hugo.IsMultilingual
+description: Reports whether there are two or more configured languages.
 categories: []
 keywords: []
 action:
-  aliases: []
   related:
-    - /functions/hugo/IsMultilingual
+    - /functions/hugo/IsMultihost
   returnType: bool
-  signatures: [hugo.IsMultihost]
+  signatures: [hugo.IsMultilingual]
 ---
 
 {{< new-in v0.124.0 >}}
@@ -20,13 +19,11 @@ defaultContentLanguage = 'de'
 defaultContentLanguageInSubdir = true
 [languages]
   [languages.de]
-    baseURL = 'https://de.example.org/'
     languageCode = 'de-DE'
     languageName = 'Deutsch'
     title = 'Projekt Dokumentation'
     weight = 1
   [languages.en]
-    baseURL = 'https://en.example.org/'
     languageCode = 'en-US'
     languageName = 'English'
     title = 'Project Documentation'
@@ -36,5 +33,5 @@ defaultContentLanguageInSubdir = true
 Template:
 
 ```go-html-template
-{{ hugo.IsMultihost }} → true
+{{ hugo.IsMultilingual }} → true
 ```
