@@ -44,6 +44,7 @@ Although we do not strictly adhere to the [Microsoft Writing Style Guide], it is
 Please link to the [glossary of terms] when necessary, and use the terms consistently throughout the documentation. Of special note:
 
 - The term "front matter" is two words unless you are referring to the configuration key
+- The term "standalone" is one word, not hyphenated
 - Use the word "map" instead of "dictionary"
 - Use the word "flag" instead of "option" when referring to a command line flag
 - Capitalize the word "Markdown"
@@ -215,7 +216,7 @@ file
 : (`string`) The file name to display.
 
 lang
-: (`string`) The code language. If you do not provide a `lang` argument, the code language is determined by the file extension. If the file extension is "html", sets the code language to `go-html-template`. Default is `text`.
+: (`string`) The code language. If you do not provide a `lang` argument, the code language is determined by the file extension. If the file extension is `html`, sets the code language to `go-html-template`. Default is `text`.
 
 ### code-toggle
 

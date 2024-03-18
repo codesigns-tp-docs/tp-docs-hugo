@@ -73,11 +73,7 @@ my-project/
     │   ├── menus.en.toml
     │   ├── menus.de.toml
     │   └── params.toml
-    ├── production/
-    │   ├── hugo.toml
-    │   └── params.toml
-    └── staging/
-        ├── hugo.toml
+    ├── production/, giving you
         └── params.toml
 ```
 
@@ -226,7 +222,7 @@ See [Configure Build](#configure-build).
 
 ###### buildFuture
 
-(`bool`) Include content with publishdate in the future. Default is `false`.
+(`bool`) Include content with a future publication date. Default is `false`.
 
 ###### caches
 
@@ -242,7 +238,7 @@ See [Configure File Caches](#configure-file-caches).
 
 ###### cascade
 
-Pass down down default configuration values (front matter) to pages in the content tree. The options in site config is the same as in page front matter, see [Front Matter Cascade](/content-management/front-matter#cascade).
+Pass down default configuration values (front matter) to pages in the content tree. The options in site config is the same as in page front matter, see [Front Matter Cascade](/content-management/front-matter#cascade).
 
 {{% note %}}
 For a website in a single language, define the `[[cascade]]` in [Front Matter](/content-management/front-matter#cascade). For a multilingual website, define the `[[cascade]]` in [Site Config](/getting-started/configuration/#cascade).
@@ -377,7 +373,7 @@ Module configuration see [module configuration](/hugo-modules/configuration/).
 
 ###### outputFormats
 
-See [Configure Output Formats](#configure-additional-output-formats).
+See [custom output formats].
 
 ###### paginate
 
@@ -435,7 +431,7 @@ See [Menus](/content-management/menus/#define-automatically).
 
 ###### security
 
-See [Security Policy](/about/security-model/#security-policy).
+See [Security Policy](/about/security/#security-policy).
 
 ###### segments
 
@@ -760,10 +756,6 @@ The above will try first to extract the value for `.Date` from the file name, th
 `:git`
 : This is the Git author date for the last revision of this content file. This will only be set if `--enableGitInfo` is set or `enableGitInfo = true` is set in site configuration.
 
-## Configure additional output formats
-
-Hugo v0.20 introduced the ability to render your content to multiple output formats (e.g., to JSON, AMP html, or CSV). See [Output Formats] for information on how to add these values to your Hugo project's configuration file.
-
 ## Configure minify
 
 See the [tdewolff/minify] project page for details.
@@ -803,7 +795,7 @@ dir
 
 This is the directory where Hugo by default will store its file caches. See [Configure File Caches](#configure-file-caches).
 
-This can be set using the `cacheDir` config option or via the OS env variable `HUGO_CACHEDIR`.
+This can be set using the `cacheDir` config option or via the OS environment variable `HUGO_CACHEDIR`.
 
 If this is not set, Hugo will use, in order of preference:
 
@@ -817,7 +809,7 @@ If you want to know the current value of `cacheDir`, you can run `hugo config`, 
 [`.Site.Params`]: /method/site/params/
 [directory structure]: /getting-started/directory-structure/
 [lookup order]: /templates/lookup-order/
-[Output Formats]: /templates/output-formats/
+[custom output formats]: /templates/output-formats/
 [templates]: /templates/
 [static-files]: /content-management/static-files/
 
