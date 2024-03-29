@@ -73,7 +73,7 @@ my-project/
     │   ├── menus.en.toml
     │   ├── menus.de.toml
     │   └── params.toml
-    ├── production/, giving you
+    └── production/
         └── params.toml
 ```
 
@@ -850,10 +850,10 @@ It is recommended to put coarse grained filters (e.g. for language and output fo
   [[segments.segment1.excludes]]
     lang = "n*"
   [[segments.segment1.excludes]]
-    en     = "en"
+    lang   = "en"
     output = "rss"
   [[segments.segment1.includes]]
-    term = "{home,term,taxonomy}"
+    kind = "{home,term,taxonomy}"
   [[segments.segment1.includes]]
     path = "{/docs,/docs/**}"
 {{< /code-toggle >}}
