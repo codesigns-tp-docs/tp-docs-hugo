@@ -9,11 +9,18 @@ action:
     - functions/resources/Fingerprint
     - functions/resources/Minify
     - functions/resources/PostProcess
-    - functions/resources/ToCSS
+    - functions/css/Sass
   returnType: resource.Resource
   signatures: ['resources.PostCSS [OPTIONS] RESOURCE']
 toc: true
+expiryDate: 2025-06-24 # deprecated 2024-06-24
 ---
+
+{{% deprecated-in 0.128.0 %}}
+Use [css.PostCSS] instead.
+
+[css.PostCSS]: /functions/css/postcss/
+{{% /deprecated-in %}}
 
 ```go-html-template
 {{ with resources.Get "css/main.css" | postCSS }}
