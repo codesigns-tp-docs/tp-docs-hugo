@@ -378,6 +378,10 @@ Module configuration see [module configuration](/hugo-modules/configuration/).
 
 See [custom output formats].
 
+###### page
+
+See [Page Configuration](#configure-page).
+
 ###### pagination
 
 See [configure pagination](/templates/pagination/#configuration).
@@ -496,6 +500,16 @@ enableemoji: true
 ```
 {{% /note %}}
 
+## Configure page
+
+{{< new-in 0.133.0 >}}
+
+The `page` configuration section contains [page]-related configuration options.
+
+{{< code-toggle config=page />}}
+
+[page]:/methods/page/
+
 ## Configure build
 
 The `build` configuration section contains global build-related configuration options.
@@ -608,8 +622,6 @@ force = false
 Setting `force=true` will make a redirect even if there is existing content in the path. Note that before Hugo 0.76 `force` was the default behavior, but this is inline with how Netlify does it.
 
 ## 404 server error page {#_404-server-error-page}
-
-{{< new-in 0.103.0 >}}
 
 Hugo will, by default, render all 404 errors when running `hugo server` with the `404.html` template. Note that if you have already added one or more redirects to your [server configuration](#configure-server), you need to add the 404 redirect explicitly, e.g:
 
@@ -923,7 +935,6 @@ output
 : The [output format] of the page.
 
 It is recommended to put coarse grained filters (e.g. for language and output format) in the excludes section, e.g.:
-
 
 {{< code-toggle file=hugo >}}
 [segments.segment1]
