@@ -256,6 +256,14 @@ Eeach [`Resource`] will be of media type `application/javascript` or `text/css`.
 
  In a template you would typically handle one group with a given `ID` (e.g. scripts for the current section). Because of the concurrent build, this needs to be done in a [`templates.Defer`] block:
 
+{{% note %}}
+The [`templates.Defer`] acts as a synchronisation point to handle scripts added concurrently by different templates. If you have a setup with where the batch is created in one go (in one template), you don't need it.
+
+See [this discussion](https://discourse.gohugo.io/t/js-batch-with-simple-global-script/53002/5?u=bep) for more.
+
+[`templates.Defer`]: /functions/templates/defer/
+{{% /note %}}
+
 ```go-html-template
 {{ $group := .group }}
 {{ with (templates.Defer (dict "key" $group "data" $group )) }}
