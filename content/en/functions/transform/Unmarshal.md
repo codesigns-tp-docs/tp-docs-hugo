@@ -37,7 +37,7 @@ Use the `transform.Unmarshal` function with global, page, and remote resources.
 
 ### Global resource
 
-A global resource is a file within the assets directory, or within any directory mounted to the assets directory.
+A global resource is a file within the `assets` directory, or within any directory mounted to the `assets` directory.
 
 ```text
 assets/
@@ -97,14 +97,14 @@ A remote resource is a file on a remote server, accessible via HTTP or HTTPS.
 ```go-html-template
 {{ $data := dict }}
 {{ $url := "https://example.org/books.json" }}
-{{ with resources.GetRemote $url }}
+{{ with try (resources.GetRemote $url) }}
   {{ with .Err }}
     {{ errorf "%s" . }}
-  {{ else }}
+  {{ else with .Value }}
     {{ $data = . | transform.Unmarshal }}
+  {{ else }}
+    {{ errorf "Unable to get remote resource %q" $url }}
   {{ end }}
-{{ else }}
-  {{ errorf "Unable to get remote resource %q" $url }}
 {{ end }}
 
 {{ range where $data "author" "Victor Hugo" }}
@@ -175,14 +175,14 @@ Get the remote data:
 ```go-html-template
 {{ $data := dict }}
 {{ $url := "https://example.org/books/index.xml" }}
-{{ with resources.GetRemote $url }}
+{{ with try (resources.GetRemote $url) }}
   {{ with .Err }}
     {{ errorf "%s" . }}
-  {{ else }}
+  {{ else with .Value }}
     {{ $data = . | transform.Unmarshal }}
+  {{ else }}
+    {{ errorf "Unable to get remote resource %q" $url }}
   {{ end }}
-{{ else }}
-  {{ errorf "Unable to get remote resource %q" $url }}
 {{ end }}
 ```
 

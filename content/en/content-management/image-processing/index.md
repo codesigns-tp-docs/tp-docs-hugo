@@ -88,15 +88,15 @@ Example 3: A more concise way to skip image rendering if the resource is not fou
 Example 4: Skips rendering if there's problem accessing a remote resource.
 
 ```go-html-template
-{{ $u := "https://gohugo.io/img/hugo-logo.png" }}
-{{ with resources.GetRemote $u }}
+{{ $url := "https://gohugo.io/img/hugo-logo.png" }}
+{{ with try (resources.GetRemote $url) }}
   {{ with .Err }}
     {{ errorf "%s" . }}
-  {{ else }}
+  {{ else with .Value }}
     <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}">
+  {{ else }}
+    {{ errorf "Unable to get remote resource %q" $url }}
   {{ end }}
-{{ else }}
-  {{ errorf "Unable to get remote resource %q" $u }}
 {{ end }}
 ```
 
@@ -482,7 +482,7 @@ To control tag availability, change the `excludeFields` or `includeFields` setti
 
 ## Smart cropping of images
 
-By default, Hugo uses the [Smartcrop] library when cropping images with the `Crop` or`Fill` methods. You can set the anchor point manually, but in most cases the `Smart` option will make a good choice.
+By default, Hugo uses the [Smartcrop] library when cropping images with the `Crop` or `Fill` methods. You can set the anchor point manually, but in most cases the `Smart` option will make a good choice.
 
 Examples using the sunset image from above:
 

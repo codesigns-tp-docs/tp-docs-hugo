@@ -33,7 +33,7 @@ The meaning of, and value returned by, the `Path` method on a `Page` object chan
 [v0.123.0]: https://github.com/gohugoio/hugo/releases/tag/v0.123.0
 {{% /note %}}
 
-To determine the logical path for pages backed by a file, Hugo starts with the file path, relative to the content directory, and then:
+To determine the logical path for pages backed by a file, Hugo starts with the file path, relative to the `content` directory, and then:
 
 1. Strips the file extension
 2. Strips the language identifier
@@ -112,8 +112,8 @@ Methods|Functions|Shortcodes
 [`urls.RelRef`]: /functions/urls/relref/
 [`Page.GetPage`]: /methods/page/getpage/
 [`Site.GetPage`]: /methods/site/getpage/
-[`ref`]: /content-management/shortcodes/#ref
-[`relref`]: /content-management/shortcodes/#relref
+[`ref`]: /shortcodes/ref/
+[`relref`]: /shortcodes/relref/
 [`Page.Ref`]: /methods/page/ref/
 [`Page.RelRef`]: /methods/page/relref/
 [`Shortcode.Ref`]: /methods/shortcode/ref
