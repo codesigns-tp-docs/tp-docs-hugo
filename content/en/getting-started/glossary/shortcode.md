@@ -1,5 +1,6 @@
 ---
 title: shortcode
+reference: /content-management/shortcodes
 ---
 
-A [template](g)  called from within Markdown, taking zero or more [arguments](g). See&nbsp;[details](/content-management/shortcodes/).
+A _shortcode_ is a [_template_](g) invoked within markup, accepting any number of [_arguments_](g). They can be used with any [content format](g) to insert elements such as videos, images, and social media embeds into your content.
