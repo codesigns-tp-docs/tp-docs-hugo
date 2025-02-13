@@ -1,6 +1,6 @@
 <header
   x-data="navbar"
-  class="sticky top-0 z-50 bg-blue-950 flex flex-none flex-wrap items-center justify-between px-4 py-5 shadow-md shadow-slate-900/5 transition duration-500 sm:px-6 lg:px-8 dark:shadow-none"
+  class="print:hidden sticky top-0 z-50 bg-blue-950 flex flex-none flex-wrap items-center justify-between px-4 py-5 shadow-md shadow-slate-900/5 transition duration-500 sm:px-6 lg:px-8 dark:shadow-none"
   :class="$store.nav.scroll.atTop ? '': 'bg-blue-950/80'">
   <div class="relative flex basis-0 items-cente mr-2 lg:mr-8">
     {{ with site.Home }}
@@ -24,11 +24,12 @@
 
   </div>
 
-  <div class="-my-5 pl-2 sm:mr-8">
+  <div class="-my-5 pl-2 grow-0">
     {{/* Search. */}}
     {{ partial "layouts/search/input.html" . }}
   </div>
-  <div class="relative flex basis-0 justify-end gap-6 sm:gap-1 md:flex-grow">
+  <div
+    class="relative ml-0 md:ml-8 flex basis-0 justify-end gap-0 sm:gap-1 xl:grow-1">
     {{/* QR code. */}}
     {{ partial "layouts/header/qr.html" . }}
     {{/* Theme selector. */}}
