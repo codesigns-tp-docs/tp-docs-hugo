@@ -2,7 +2,6 @@ baseURL                = "https://gohugo.io/"
 defaultContentLanguage = "en"
 enableEmoji            = true
 ignoreLogs             = ["error-missing-instagram-accesstoken"]
-languageCode           = "en-us"
 pluralizeListTitles    = false
 timeZone               = "Europe/Oslo"
 title                  = "Hugo"
@@ -13,6 +12,9 @@ disableAliases = true
 [caches.images]
     dir    = ":cacheDir/images"
     maxAge = "1440h"
+[caches.getresource]
+    dir    = ':cacheDir/:project'
+    maxAge = "1h"
 
 [pagination]
     pagerSize = 100
@@ -37,6 +39,7 @@ disableAliases = true
 [languages]
     [languages.en]
         languageName = "English"
+        languageCode = "en-US"
         weight       = 1
 
 [security]
@@ -59,16 +62,6 @@ disableAliases = true
         notAlternative = true
 
 [markup]
-    [markup.highlight]
-        style              = 'solarized-dark'
-        lineNumbersInTable = true
-        noClasses          = false
-        wrapperClass       = 'highlight not-prose'
-
-    [markup.goldmark.renderer]
-        hardWraps = false
-        unsafe    = false
-        xhtml     = false
 
     [markup.goldmark.extensions]
         definitionList = true
@@ -88,11 +81,23 @@ disableAliases = true
 
     [markup.goldmark.parser]
         autoHeadingID     = true
-        autoHeadingIDType = "github"
+        autoDefinitionTermID = true
+        autoIDType = "github"
 
         [markup.goldmark.parser.attribute]
             block = true
             title = true
+
+    [markup.goldmark.renderer]
+        hardWraps = false
+        unsafe    = false
+        xhtml     = false
+
+    [markup.highlight]
+        style              = 'solarized-dark'
+        lineNumbersInTable = true
+        noClasses          = false
+        wrapperClass       = 'highlight not-prose'
 
 [mediaTypes]
     [mediaTypes."text/netlify"]
