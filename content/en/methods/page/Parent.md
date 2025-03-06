@@ -3,17 +3,10 @@ title: Parent
 description: Returns the Page object of the parent section of the given page.
 categories: []
 keywords: []
-action:
-  related:
-    - methods/page/Ancestors
-    - methods/page/CurrentSection
-    - methods/page/FirstSection
-    - methods/page/InSection
-    - methods/page/IsAncestor
-    - methods/page/IsDescendant
-    - methods/page/Sections
-  returnType: page.Page
-  signatures: [PAGE.Parent]
+params:
+  functions_and_methods:
+    returnType: page.Page
+    signatures: [PAGE.Parent]
 ---
 
 {{% glossary-term section %}}

@@ -3,14 +3,11 @@ title: return
 description: Used within partial templates, terminates template execution and returns the given value, if any.
 categories: []
 keywords: []
-action:
-  aliases: []
-  related:
-    - functions/partials/Include
-    - functions/partials/IncludeCached
-  returnType: any
-  signatures: ['return [VALUE]']
-toc: true
+params:
+  functions_and_methods:
+    aliases: []
+    returnType: any
+    signatures: ['return [VALUE]']
 ---
 
 The `return` statement is a non-standard extension to Go's [text/template package]. Used within partial templates, the `return` statement terminates template execution and returns the given value, if any.
@@ -27,7 +24,7 @@ Unlike `return` statements in other languages, Hugo executes the first occurrenc
 
 By way of example, let's create a partial template that _renders_ HTML, describing whether the given number is odd or even:
 
-{{< code file="layouts/partials/odd-or-even.html" >}}
+{{< code file=layouts/partials/odd-or-even.html >}}
 {{ if math.ModBool . 2 }}
   <p>{{ . }} is even</p>
 {{ else }}
@@ -43,7 +40,7 @@ When called, the partial renders HTML:
 
 Instead of rendering HTML, let's create a partial that _returns_ a boolean value, reporting whether the given number is even:
 
-{{< code file="layouts/partials/is-even.html" >}}
+{{< code file=layouts/partials/is-even.html >}}
 {{ return math.ModBool . 2 }}
 {{< /code >}}
 
@@ -78,7 +75,7 @@ A partial that returns a value must contain only one `return` statement, placed 
 
 For example:
 
-{{< code file="layouts/partials/is-even.html" >}}
+{{< code file=layouts/partials/is-even.html >}}
 {{ $result := false }}
 {{ if math.ModBool . 2 }}
   {{ $result = "even" }}
@@ -92,7 +89,7 @@ For example:
 The construct below is incorrect; it contains more than one `return` statement.
 {{< /note >}}
 
-{{< code file="layouts/partials/do-not-do-this.html" >}}
+{{< code file=layouts/partials/do-not-do-this.html >}}
 {{ if math.ModBool . 2 }}
   {{ return "even" }}
 {{ else }}

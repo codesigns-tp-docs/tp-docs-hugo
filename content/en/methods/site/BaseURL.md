@@ -3,14 +3,10 @@ title: BaseURL
 description: Returns the base URL as defined in the site configuration.
 categories: []
 keywords: []
-action:
-  related:
-    - functions/urls/AbsURL
-    - functions/urls/AbsLangURL
-    - functions/urls/RelURL
-    - functions/urls/RelLangURL
-  returnType: string
-  signatures: [SITE.BaseURL]
+params:
+  functions_and_methods:
+    returnType: string
+    signatures: [SITE.BaseURL]
 ---
 
 Site configuration:
