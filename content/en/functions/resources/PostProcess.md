@@ -3,13 +3,11 @@ title: resources.PostProcess
 description: Processes the given resource after the build.
 categories: []
 keywords: []
-action:
-  aliases: []
-  related:
-    - functions/css/PostCSS
-    - functions/css/Sass
-  returnType: postpub.PostPublishedResource
-  signatures: [resources.PostProcess RESOURCE]
+params:
+  functions_and_methods:
+    aliases: []
+    returnType: postpub.PostPublishedResource
+    signatures: [resources.PostProcess RESOURCE]
 ---
 
 The `resources.PostProcess` function delays resource transformation steps until the build is complete, primarily for tasks like removing unused CSS rules.
@@ -58,7 +56,7 @@ See the [configure build] documentation for details and options.
 Step 4
 : Create a PostCSS configuration file in the root of your project.
 
-{{< code file="postcss.config.js" copy=true >}}
+```js {file="postcss.config.js" copy=true}
 const autoprefixer = require('autoprefixer');
 const purgeCSSPlugin = require('@fullhuman/postcss-purgecss').default;
 
@@ -82,7 +80,7 @@ module.exports = {
     autoprefixer,
   ]
 };
-{{< /code >}}
+```
 
 {{< note >}}
 {{% include "/_common/functions/postcss-windows-warning.md" %}}

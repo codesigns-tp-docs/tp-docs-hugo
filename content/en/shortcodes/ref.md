@@ -1,5 +1,6 @@
 ---
-title: Ref
+title: Ref shortcode
+linkTitle: Ref
 description: Insert a permalink to the given page reference using the ref shortcode.
 categories: []
 keywords: []
@@ -59,9 +60,6 @@ Rendered:
 
 <a href="https://example.org/de/books/book-1/index.json">Link D</a>
 ```
-
-
-
 
 ## Error handling
 
