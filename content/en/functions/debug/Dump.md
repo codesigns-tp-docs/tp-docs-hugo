@@ -6,7 +6,6 @@ keywords: []
 params:
   functions_and_methods:
     aliases: []
-    related: []
     returnType: string
     signatures: [debug.Dump VALUE]
 ---
@@ -30,6 +29,5 @@ params:
 ]
 ```
 
-{{< note >}}
-Output from this function may change from one release to the next. Use for debugging only.
-{{< /note >}}
+> [!note]
+> Output from this function may change from one release to the next. Use for debugging only.

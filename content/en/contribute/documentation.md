@@ -19,8 +19,6 @@ We welcome corrections and improvements to the documentation. The documentation 
 
 Follow Google's [developer documentation style guide].
 
-[developer documentation style guide]: https://developers.google.com/style
-
 ### Markdown
 
 Adhere to these Markdown conventions:
@@ -28,7 +26,7 @@ Adhere to these Markdown conventions:
 - Use [ATX] headings (levels 2-4), not [setext] headings.
 - Use [fenced code blocks], not [indented code blocks].
 - Use hyphens, not asterisks, for unordered [list items].
-- Use the [note shortcode](#note) instead of blockquotes or bold text for emphasis.
+- Use [callouts](#callouts) instead of bold text for emphasis.
 - Do not mix [raw HTML] within Markdown.
 - Do not use bold text in place of a heading or description term (`dt`).
 - Remove consecutive blank lines.
@@ -78,6 +76,16 @@ Link to the [glossary] as needed and use terms consistently. Pay particular atte
 - Avoid formatted strings.
 - Keep them concise.
 
+### Page descriptions
+
+When writing the page `description` use imperative present tense when possible. For example:
+
+{{< code-toggle file=content/en/functions/data/_index.md" fm=true >}}
+title: Data functions
+linkTitle: data
+description: Use these functions to read local or remote data files.
+{{< /code-toggle >}}
+
 ### Writing style
 
 Use active voice and present tense wherever possible.
@@ -99,16 +107,12 @@ Minimize adverbs.
 No → Hugo is extremely fast.\
 Yes → Hugo is fast.
 
-{{< note >}}
-"It's an adverb, Sam. It's a lazy tool of a weak mind." (Outbreak, 1995).
-{{< /note >}}
+> [!note]
+> "It's an adverb, Sam. It's a lazy tool of a weak mind." (Outbreak, 1995).
 
 ### Function and method descriptions
 
-Start descriptions in the functions and methods sections with "Returns" or "Reports whether" for boolean values.
-
-[functions]: /functions
-[methods]: /methods
+Start descriptions in the functions and methods sections with "Returns", of for booelan values, "Reports whether".
 
 ### File paths and names
 
@@ -124,14 +128,12 @@ Enclose directory names, file names, and file paths in backticks, except when us
 Other best practices:
 
 - Introduce lists with a sentence or phrase, not directly under a heading.
-- Avoid bold text; use the [note shortcode](#note) for emphasis.
+- Avoid bold text; use [callouts](#callouts) for emphasis.
 - Do not put description terms (`dt`) in backticks unless syntactically necessary.
 - Do not use Hugo's `ref` or `relref` shortcodes.
 - Prioritize current best practices over multiple options or historical information.
 - Use short, focused code examples.
 - Use [basic english] where possible for a global audience.
-
-[basic english]: https://simple.wikipedia.org/wiki/Basic_English
 
 ## Front matter fields
 
@@ -177,8 +179,6 @@ Seq|Field|Description|Required
 
 When available, the "See also" sidebar displays related pages using Hugo's [related content] feature, based on front matter keywords. We ensure consistent keyword usage by validating them against `data/keywords.yaml` during the build process. If a keyword is not found, you'll be alerted and must either modify the keyword or update the data file. This validation process helps to refine the related content for better results.
 
-[related content]: /content-management/related-content/
-
 If the title in the "See also" sidebar is ambiguous or the same as another page, you can define an alternate title in the front matter:
 
 {{< code-toggle file=hugo >}}
@@ -189,10 +189,9 @@ altTitle = "Whatever you want"
 {{< /code-toggle >}}
 
 Use of the alternate title is limited to the "See also" sidebar.
-{{< note >}}
-Think carefully before setting the `altTitle`. Use it only when absolutely necessary.
-{{< /note >}}
 
+> [!note]
+> Think carefully before setting the `altTitle`. Use it only when absolutely necessary.
 
 ## Code examples
 
@@ -268,6 +267,58 @@ date = 2023-11-09T12:56:07-08:00
 draft = false
 {{</* /code-toggle */>}}
 ```
+
+## Callouts
+
+To visually emphasize important information, use callouts (admonitions). Callout types are case-insensitive. Effective March 8, 2025, we utilize only three of the five available types.
+
+- note (272 instances)
+- warning (2 instances)
+- caution (1 instance)
+
+Limiting the number of callout types helps us to use them consistently.
+
+```text
+> [!note]
+> Useful information that users should know, even when skimming content.
+```
+
+> [!note]
+> Useful information that users should know, even when skimming content.
+
+```text
+> [!warning]
+> Urgent info that needs immediate user attention to avoid problems.
+```
+
+> [!warning]
+> Urgent info that needs immediate user attention to avoid problems.
+
+```text
+> [!caution]
+> Advises about risks or negative outcomes of certain actions.
+```
+
+> [!caution]
+> Advises about risks or negative outcomes of certain actions.
+
+```text
+> [!tip]
+> Helpful advice for doing things better or more easily.
+```
+
+> [!tip]
+> Helpful advice for doing things better or more easily.
+
+```text
+> [!important]
+> Key information users need to know to achieve their goal.
+```
+
+> [!important]
+> Key information users need to know to achieve their goal.
+
+
 
 ## Shortcodes
 
@@ -358,18 +409,6 @@ This is a new feature.
 {{</* /new-in */>}}
 ```
 
-### note
-
-Use the `note` shortcode to call attention to important content:
-
-```text
-{{</* note */>}}
-Use the [`math.Mod`] function to control...
-
-[`math.Mod`]: /functions/math/mod/
-{{</* /note */>}}
-```
-
 ## New features
 
 Use the [new-in shortcode](#new-in) to indicate a new feature:
@@ -402,9 +441,8 @@ Set the `expiryDate` to two years from the date of deprecation, and add a brief 
 
 ## GitHub workflow
 
-{{< note >}}
-This section assumes that you have a working knowledge of Git and GitHub, and are comfortable working on the command line.
-{{< /note >}}
+> [!note]
+> This section assumes that you have a working knowledge of Git and GitHub, and are comfortable working on the command line.
 
 Use this workflow to create and submit pull requests.
 
@@ -440,7 +478,7 @@ Commit your changes with a descriptive commit message:
   - Begin the summary with one of `content`, `theme`, `config`, `all`, or `misc`, followed by a colon, a space, and a brief description of the change beginning with a capital letter
   - Use imperative present tense
 - Optionally, provide a detailed description where each line is 72 characters or less, followed by a blank line.
-- Optionally, add one or more "Fixes" (for bugs) or "Closes" (for enhancements) keywords, each on its own line, referencing the [issues] addressed by this change.
+- Optionally, add one or more "Fixes" or "Closes" keywords, each on its own line, referencing the [issues] addressed by this change.
 
 For example:
 
@@ -467,9 +505,9 @@ Visit the [documentation repository] and create a pull request (PR).
 A project maintainer will review your PR and may request changes. You may delete your branch after the maintainer merges your PR.
 
 [ATX]: https://spec.commonmark.org/0.30/#atx-headings
-[Microsoft Writing Style Guide]: https://learn.microsoft.com/en-us/style-guide/welcome/
 [basic english]: https://simple.wikipedia.org/wiki/Basic_English
-[code examples]: #code-examples
+[basic english]: https://simple.wikipedia.org/wiki/Basic_English
+[developer documentation style guide]: https://developers.google.com/style
 [documentation repository]: https://github.com/gohugoio/hugoDocs/
 [fenced code blocks]: https://spec.commonmark.org/0.30/#fenced-code-blocks
 [glossary]: /quick-reference/glossary/
@@ -478,4 +516,5 @@ A project maintainer will review your PR and may request changes. You may delete
 [list items]: https://spec.commonmark.org/0.30/#list-items
 [project repository]: https://github.com/gohugoio/hugo
 [raw HTML]: https://spec.commonmark.org/0.30/#raw-html
+[related content]: /content-management/related-content/
 [setext]: https://spec.commonmark.org/0.30/#setext-heading

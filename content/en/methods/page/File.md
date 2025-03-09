@@ -5,7 +5,6 @@ categories: []
 keywords: []
 params:
   functions_and_methods:
-    related: []
     returnType: hugolib.fileInfo
     signatures: [PAGE.File]
 ---
@@ -22,15 +21,13 @@ content/
     └── book-2.md
 ```
 
-{{< note >}}
-Code defensively by verifying file existence as shown in the examples below.
-{{< /note >}}
+> [!note]
+> Code defensively by verifying file existence as shown in the examples below.
 
 ## Methods
 
-{{< note >}}
-The path separators (slash or backslash) in `Path`, `Dir`, and `Filename` depend on the operating system.
-{{< /note >}}
+> [!note]
+> The path separators (slash or backslash) in `Path`, `Dir`, and `Filename` depend on the operating system.
 
 ### BaseFileName
 
@@ -87,8 +84,6 @@ The path separators (slash or backslash) in `Path`, `Dir`, and `Filename` depend
 {{< new-in 0.126.0 />}}
 
 (`bool`) Reports whether the file is a [content adapter].
-
-[content adapter]: /content-management/content-adapters/
 
 ```go-html-template
 {{ with .File }}
@@ -195,3 +190,5 @@ Without a backing file, Hugo will throw an error if you attempt to access a `.Fi
   {{ .ContentBaseName }}
 {{ end }}
 ```
+
+[content adapter]: /content-management/content-adapters/

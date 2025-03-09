@@ -6,7 +6,6 @@ keywords: []
 params:
   functions_and_methods:
     aliases: [getJSON]
-    related: []
     returnType: any
     signatures: ['data.GetJSON INPUT... [OPTIONS]']
 expiryDate: 2026-02-19 # deprecated 2024-02-19 in v0.123.0
@@ -36,9 +35,8 @@ Access the data with either of the following:
 {{ $data := getJSON "other-files/" "books.json" }}
 ```
 
-{{< note >}}
-When working with local data, the file path is relative to the working directory.
-{{< /note >}}
+> [!note]
+> When working with local data, the file path is relative to the working directory.
 
 Access remote data with either of the following:
 

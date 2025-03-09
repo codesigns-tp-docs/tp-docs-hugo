@@ -5,7 +5,6 @@ categories: []
 keywords: []
 params:
   functions_and_methods:
-    related: []
     returnType: page.Page
     signatures: [PAGE.Page]
 ---
@@ -30,8 +29,7 @@ The page title is: {{ .Page.Title }}
 
 To handle both scenarios, the partial template must be able to access the `Page` object with `Page.Page`.
 
-{{< note >}}
-And yes, that means you can do `.Page.Page.Page.Page.Title` too.
-
-But don't.
-{{< /note >}}
+> [!note]
+> And yes, that means you can do `.Page.Page.Page.Page.Title` too.
+>
+> But don't.
