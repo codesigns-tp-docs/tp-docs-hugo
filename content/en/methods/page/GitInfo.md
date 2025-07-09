@@ -5,7 +5,7 @@ categories: []
 keywords: []
 params:
   functions_and_methods:
-    returnType: source.GitInfo
+    returnType: '*gitmap.GitInfo'
     signatures: [PAGE.GitInfo]
 ---
 
@@ -16,7 +16,7 @@ The `GitInfo` method on a `Page` object returns an object with additional method
 
 ## Prerequisites
 
-Install [Git], create a repository, and commit your project files.
+Install Git, create a repository, and commit your project files.
 
 You must also allow Hugo to access your repository. In your site configuration:
 
@@ -116,6 +116,34 @@ hugo --enableGitInfo
   {{ .Body }} → - Two new pages added.
 {{ end }}
 ```
+
+### Ancestors
+
+(`gitmap.GitInfos`) A slice of file-filtered ancestor commits, if any, ordered from most recent to least recent.
+
+For example, to list the last 5 commits:
+
+```go-html-template
+{{ with .GitInfo }}
+  {{ range .Ancestors | first 5 }} 
+    {{ .CommitDate.Format "2006-01-02" }}: {{ .Subject }}
+  {{ end }}
+{{ end }}
+```
+
+To reverse the order:
+
+```go-html-template
+{{ with .GitInfo }}
+  {{ range .Ancestors.Reverse | first 5 }} 
+    {{ .CommitDate.Format "2006-01-02" }}: {{ .Subject }}
+  {{ end }}
+{{ end }}
+```
+
+### Parent
+
+(`*gitmap.GitInfo`) The first file-filtered ancestor commit, if any.
 
 ## Last modified date
 
