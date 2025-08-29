@@ -111,7 +111,7 @@ jobs:
     runs-on: codeberg-tiny-lazy
     container:
       # Specify "hugomods/hugo:exts" if you want to always use the latest version of Hugo for building.
-      image: "hugomods/hugo:exts-0.148.0"
+      image: "hugomods/hugo:exts-0.149.0"
     steps:
       - name: Clone the repository
         uses: https://code.forgejo.org/actions/checkout@v4
@@ -201,7 +201,7 @@ jobs:
     runs-on: codeberg-tiny-lazy
     container:
       # Specify "hugomods/hugo:exts" if you want to always use the latest version of Hugo for building.
-      image: "hugomods/hugo:exts-0.148.0"
+      image: "hugomods/hugo:exts-0.149.0"
     steps:
       - name: Clone the repository
         uses: https://code.forgejo.org/actions/checkout@v4
@@ -260,8 +260,6 @@ Once you commit one of the two files to your website source repository, you shou
 Codeberg Pages relies on a `.domains` file to identify allowed domains for a specific branch. It's important that this file is located in the root directory of your output repository or branch, rather than in the root directory of your source files. To achieve this, simply place your `.domains` file in the `static` directory of your project. When your site is built, it will be automatically copied to the `public` directory, which serves as the root of your output.
 
 When looking at the example `.forgejo/workflows/hugo.yaml`, you'll notice that the `upload-artifact@v3` action is used to upload the public directory to the deployment branch.
-
-By default, both `upload-artifact@v3` and `upload-artifact@v4` exclude all dot files from being uploaded unless you specifically tell them not to (you can find more details [here]).
 
 By default, upload-artifact@v3 and upload-artifact@v4 exclude all dot files from being uploaded. You can find more details on [how to handle dot files and other file patterns in the documentation](https://github.com/actions/upload-artifact/issues/602). To make sure dot files are included, modify your workflow like this:
 
