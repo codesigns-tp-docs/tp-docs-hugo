@@ -12,10 +12,10 @@ keywords: []
 There are three ways to define menu entries:
 
 1. [Automatically]
-1. [In front matter]
-1. In site configuration
+1. In [front matter]
+1. In your project configuration
 
-This page covers the site configuration method.
+This page covers the project configuration method.
 
 ## Example
 
@@ -78,7 +78,7 @@ These are the available menu entry properties:
 
 {{% include "/_common/menu-entry-properties.md" %}}
 
-pageRef
+`pageRef`
 : (`string`) The [logical path](g) of the target page. For example:
 
   page kind|pageRef
@@ -89,7 +89,7 @@ pageRef
   taxonomy|`/tags`
   term|`/tags/foo`
 
-url
+`url`
 : (`string`) The destination URL. Use this for external destinations only.
 
 ## Nested menu
@@ -132,6 +132,6 @@ rel = 'external'
 
 [`Menus`]: /methods/site/menus/
 [Automatically]: /content-management/menus/#define-automatically
-[In front matter]: /content-management/menus/#define-in-front-matter
+[front matter]: /content-management/menus/#define-in-front-matter
 [menu templates]: /templates/menu/
 [menus]: /content-management/menus/

@@ -11,16 +11,13 @@ Hugo's [forum] is an active community of users and developers who answer questio
 These are just a few of the questions most frequently asked by new users.
 
 An error message indicates that a feature is not available. Why?
-: <!-- do not remove preceding space -->
-  {{% include "/_common/installation/01-editions.md" %}}
-
-  When you attempt to use a feature that is not available in the edition that you installed, Hugo throws this error:
+: When you attempt to use a feature that is not available in the edition that you installed, Hugo throws this error:
 
   ```go-html-template
   this feature is not available in this edition of Hugo
   ```
 
-  To resolve, install a different edition based on the feature table above. See the [installation] section for details.
+  To resolve, install a different edition. See the [installation] section for details.
 
 Why do I see "Page Not Found" when visiting the home page?
 : In the `content/_index.md` file:
@@ -85,9 +82,9 @@ Why isn't Hugo's development server detecting file changes?
   In these cases, instead of monitoring native file system events, use the `--poll` command line flag. For example, to poll the project files every 700 milliseconds, use `--poll 700ms`.
 
 Why is my page Store missing a value?
-: The [`Store`] method on a `Page` object allows you to create a [scratch pad](g) on the given page to store and manipulate data. Values are often set within a _shortcode_ template, a _partial_ template called by a _shortcode_ template, or by a _render hook_ template. In all three cases, the scratch pad values are not determinate until Hugo renders the page content.
+: The [`Store`] method on a `Page` object creates a persistent data structure for storing and manipulating keyed values on the given page. Values are often set within a _shortcode_ template, a _partial_ template called by a _shortcode_ template, or by a _render hook_ template. In all three cases, the stored values are not determinate until Hugo renders the page content.
 
-  If you need to access a scratch pad value from a parent template, and the parent template has not yet rendered the page content, you can trigger content rendering by assigning the returned value to a [noop](g) variable:
+  If you need to access a stored value from a parent template, and the parent template has not yet rendered the page content, you can trigger content rendering by assigning the returned value to a [noop](g) variable:
 
   ```go-html-template
   {{ $noop := .Content }}

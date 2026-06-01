@@ -6,13 +6,11 @@ categories: []
 keywords: []
 ---
 
-{{< new-in 0.122.0 />}}
-
 ## Overview
 
 Mathematical equations and expressions written in [LaTeX][] are common in academic and scientific publications. Your browser typically renders this mathematical markup using an open-source JavaScript display engine such as [MathJax][] or [KaTeX][].
 
-For example, with this LaTeX markup:
+For example, this LaTeX markup:
 
 ```text
 \[
@@ -23,7 +21,7 @@ JS(\hat{y} || y) &= \frac{1}{2}(KL(y||\frac{y+\hat{y}}{2}) + KL(\hat{y}||\frac{y
 \]
 ```
 
-The MathJax display engine renders this:
+Is rendered to:
 
 \[
 \begin{aligned}
@@ -37,7 +35,7 @@ Equations and expressions can be displayed inline with other text, or as standal
 Whether an equation or expression appears inline, or as a block, depends on the delimiters that surround the mathematical markup. Delimiters are defined in pairs, where each pair consists of an opening and closing delimiter. The opening and closing delimiters may be the same, or different.
 
 > [!note]
-> You can configure Hugo to render mathematical markup on the client side using the MathJax or KaTeX display engine, or you can render the markup with the [`transform.ToMath`][] function while building your site.
+> You can configure Hugo to render mathematical markup on the client side using the MathJax or KaTeX display engine, or you can render the markup with the [`transform.ToMath`][] function while building your project.
 >
 > The first approach is described below.
 
@@ -46,7 +44,7 @@ Whether an equation or expression appears inline, or as a block, depends on the 
 Follow these instructions to include mathematical equations and expressions in your Markdown using LaTeX markup.
 
 Step 1
-: Enable and configure the Goldmark [passthrough extension][] in your site configuration. The passthrough extension preserves raw Markdown within delimited snippets of text, including the delimiters themselves.
+: Enable and configure the Goldmark [passthrough extension][] in your project configuration. The passthrough extension preserves raw Markdown within delimited snippets of text, including the delimiters themselves.
 
   {{< code-toggle file=hugo copy=true >}}
   [markup.goldmark.extensions.passthrough]
@@ -60,7 +58,7 @@ Step 1
   math = true
   {{< /code-toggle >}}
 
-  The configuration above enables mathematical rendering on every page unless you set the `math` parameter to `false` in front matter. To enable mathematical rendering as needed, set the `math` parameter to `false` in your site configuration, and set the `math` parameter to `true` in front matter. Use this parameter in your base template as shown in [Step 3][].
+  The configuration above enables mathematical rendering on every page unless you set the `math` parameter to `false` in front matter. To enable mathematical rendering as needed, set the `math` parameter to `false` in your project configuration, and set the `math` parameter to `true` in front matter. Use this parameter in your base template as shown in [Step 3][].
 
   > [!note]
   > The configuration above precludes the use of the `$...$` delimiter pair for inline equations. Although you can add this delimiter pair to the configuration and JavaScript, you must double-escape the `$` symbol when used outside of math contexts to avoid unintended formatting.
@@ -101,7 +99,7 @@ Step 2
   </script>
   ```
 
-  The delimiters above must match the delimiters in your site configuration.
+  The delimiters above must match the delimiters in your project configuration.
 
 Step 3
 : Conditionally call the _partial_ template from the base template.
@@ -116,10 +114,10 @@ Step 3
   </head>
   ```
 
-  The example above loads the _partial_ template if you have set the `math` parameter in front matter to `true`. If you have not set the `math` parameter in front matter, the conditional statement falls back to the `math` parameter in your site configuration.
+  The example above loads the _partial_ template if you have set the `math` parameter in front matter to `true`. If you have not set the `math` parameter in front matter, the conditional statement falls back to the `math` parameter in your project configuration.
 
 Step 4
-: If you set the `math` parameter to `false` in your site configuration, you must set the `math` parameter to `true` in front matter. For example:
+: If you set the `math` parameter to `false` in your project configuration, you must set the `math` parameter to `true` in front matter. For example:
 
   {{< code-toggle file=content/math-examples.md fm=true >}}
   title = 'Math examples'
@@ -182,19 +180,19 @@ To use KaTeX instead of MathJax, replace the _partial_ template from [Step 2][] 
 ```go-html-template {file="layouts/_partials/math.html" copy=true}
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.23/dist/katex.min.css"
-  integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css"
+  integrity="sha384-WcoG4HRXMzYzfCgiyfrySxx90XSl2rxY5mnVY5TwtWE6KLrArNKn0T/mOgNL0Mmi"
   crossorigin="anonymous"
 >
 <script
   defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.23/dist/katex.min.js"
-  integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh"
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js"
+  integrity="sha384-J+9dG2KMoiR9hqcFao0IBLwxt6zpcyN68IgwzsCSkbreXUjmNVRhPFTssqdSGjwQ"
   crossorigin="anonymous">
 </script>
 <script
   defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.23/dist/contrib/auto-render.min.js"
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js"
   integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"
   crossorigin="anonymous"
   onload="renderMathInElement(document.body);">
@@ -213,7 +211,7 @@ To use KaTeX instead of MathJax, replace the _partial_ template from [Step 2][] 
 </script>
 ```
 
-The delimiters above must match the delimiters in your site configuration.
+The delimiters above must match the delimiters in your project configuration.
 
 ## Chemistry
 

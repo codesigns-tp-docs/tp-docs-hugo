@@ -8,6 +8,7 @@ params:
     aliases: [babel]
     returnType: resource.Resource
     signatures: ['js.Babel [OPTIONS] RESOURCE']
+aliases: [/functions/resources/babel/]
 ---
 
 ```go-html-template
@@ -35,14 +36,14 @@ Step 1
 : Install [Node.js](https://nodejs.org/en/download)
 
 Step 2
-: Install the required Node.js packages in the root of your project.
+: Install the required Node packages in the root of your project.
 
   ```sh
   npm install --save-dev @babel/core @babel/cli
   ```
 
 Step 3
-: Add the babel executable to Hugo's `security.exec.allow` list in your site configuration:
+: Add the babel executable to Hugo's `security.exec.allow` list in your project configuration:
 
   {{< code-toggle file=hugo >}}
   [security.exec]
@@ -69,25 +70,25 @@ module.exports = {
 
 ## Options
 
-compact
+`compact`
 : (`bool`) Whether to remove optional newlines and whitespace. Enabled when `minified` is `true`. Default is `false`
 
-config
+`config`
 : (`string`) Path to the Babel configuration file. Hugo will, by default, look for a `babel.config.js` file in the root of your project. See&nbsp;[details](https://babeljs.io/docs/en/configuration).
 
-minified
+`minified`
 : (`bool`) Whether to minify the compiled code. Enables the `compact` option. Default is `false`.
 
-noBabelrc
+`noBabelrc`
 : (`string`) Whether to ignore `.babelrc` and `.babelignore` files. Default is `false`.
 
-noComments
+`noComments`
 : (`bool`) Whether to remove comments. Default is `false`.
 
-sourceMap
+`sourceMap`
 : (`string`) Whether to generate source maps, one of `external`, `inline`, or `none`. Default is `none`.
 
-verbose
+`verbose`
 : (`bool`) Whether to enable verbose logging. Default is `false`
 
 <!--

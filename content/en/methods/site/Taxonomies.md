@@ -30,7 +30,7 @@ taxonomy b:
 
 For example, on a book review site you might create two taxonomies; one for genres and another for authors.
 
-With this site configuration:
+With this project configuration:
 
 {{< code-toggle file=hugo >}}
 [taxonomies]
@@ -96,7 +96,7 @@ Hugo renders this to:
 > [!note]
 > Hugo's taxonomy system is powerful, allowing you to classify content and create relationships between pages.
 >
-> Please see the [taxonomies] section for a complete explanation and examples.
+> Please see the [taxonomies][] section for a complete explanation and examples.
 
 ## Examples
 

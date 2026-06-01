@@ -8,11 +8,11 @@ weight: 10
 
 ## Sensible defaults
 
-Hugo offers many configuration options, but its defaults are often sufficient. A new site requires only these settings:
+Hugo offers many configuration options, but its defaults are often sufficient. A new project requires only these settings:
 
 {{< code-toggle file=hugo >}}
 baseURL = 'https://example.org/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = 'My New Hugo Site'
 {{< /code-toggle >}}
 
@@ -23,7 +23,7 @@ Only define settings that deviate from the defaults. A smaller configuration fil
 
 ## Configuration file
 
-Create a site configuration file in the root of your project directory, naming it `hugo.toml`, `hugo.yaml`, or `hugo.json`, with that order of precedence.
+Create a project configuration file in the root of your project directory, naming it `hugo.toml`, `hugo.yaml`, or `hugo.json`, with that order of precedence.
 
 ```text
 my-project/
@@ -31,13 +31,13 @@ my-project/
 ```
 
 > [!note]
-> For versions v0.109.0 and earlier, the site configuration file was named `config`. While you can still use this name, it's recommended to switch to the newer naming convention, `hugo`.
+> For versions v0.109.0 and earlier, the project configuration file was named `config`. While you can still use this name, it's recommended to switch to the newer naming convention, `hugo`.
 
 A simple example:
 
 {{< code-toggle file=hugo >}}
 baseURL = 'https://example.org/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = 'ABC Widgets, Inc.'
 [params]
 subtitle = 'The Best Widgets on Earth'
@@ -46,16 +46,16 @@ email = 'info@example.org'
 phone = '+1 202-555-1212'
 {{< /code-toggle >}}
 
-To use a different configuration file when building your site, use the `--config` flag:
+To use a different configuration file when building your project, use the `--config` flag:
 
 ```sh
-hugo --config other.toml
+hugo build --config other.toml
 ```
 
 Combine two or more configuration files, with left-to-right precedence:
 
 ```sh
-hugo --config a.toml,b.yaml,c.json
+hugo build --config a.toml,b.yaml,c.json
 ```
 
 > [!note]
@@ -63,7 +63,7 @@ hugo --config a.toml,b.yaml,c.json
 
 ## Configuration directory
 
-Instead of a single site configuration file, split your configuration by [environment](g), root configuration key, and language. For example:
+Instead of a single project configuration file, split your configuration by [environment](g), root configuration key, and language. For example:
 
 ```text
 my-project/
@@ -79,14 +79,11 @@ my-project/
 
 The root configuration keys are {{< root-configuration-keys >}}.
 
-> [!note]
-> You must define `cascade` tables in the root configuration file. You cannot define `cascade` tables in a dedicated file. See issue [#12899] for details.
+### Root key
 
-[#12899]: https://github.com/gohugoio/hugo/issues/12899
+{{< new-in 0.162.0 />}}
 
-### Omit the root key
-
-When splitting the configuration by root key, omit the root key in the component file. For example, these are equivalent:
+When splitting the configuration by root key, you may omit or include the root key in the component file. For example, these are equivalent:
 
 {{< code-toggle file=config/_default/hugo >}}
 [params]
@@ -96,6 +93,35 @@ foo = 'bar'
 {{< code-toggle file=config/_default/params >}}
 foo = 'bar'
 {{< /code-toggle >}}
+
+This also applies to keys whose values are maps of slices, such as `menus`. For example, these are equivalent:
+
+{{< code-toggle file=config/_default/menus >}}
+[[main]]
+name = 'Home'
+pageRef = '/'
+weight = 10
+{{< /code-toggle >}}
+
+{{< code-toggle file=config/_default/menus >}}
+[[menus.main]]
+name = 'Home'
+pageRef = '/'
+weight = 10
+{{< /code-toggle >}}
+
+For pure slice-typed keys such as `cascade` and `permalinks`, including the root key is required. For example:
+
+{{< code-toggle file=config/_default/cascade >}}
+[[cascade]]
+[cascade.params]
+color = 'red'
+[cascade.target]
+path = '/articles/**'
+{{< /code-toggle >}}
+
+> [!note]
+> Hugo unwraps the root key only when it is the sole top-level key in the file and matches the file's basename.
 
 ### Recursive parsing
 
@@ -129,9 +155,9 @@ my-project/
         └── params.toml
 ```
 
-Considering the structure above, when running `hugo --environment staging`, Hugo will use every setting from `config/_default` and merge `staging`'s on top of those.
+Considering the structure above, when running `hugo build --environment staging`, Hugo will use every setting from `config/_default` and merge `staging`'s on top of those.
 
-Let's take an example to understand this better. Let's say you are using Google Analytics for your website. This requires you to specify a [Google tag ID] in your site configuration:
+Let's take an example to understand this better. Let's say you are using Google Analytics for your website. This requires you to specify a [Google tag ID] in your project configuration:
 
 {{< code-toggle file=hugo >}}
 [services.googleAnalytics]
@@ -159,7 +185,7 @@ To satisfy these requirements, configure your site as follows:
       {{< /code-toggle >}}
 
     - You do not need to include other parameters in this file. Include only those parameters that are specific to your production environment. Hugo will merge these parameters with the default configuration.
-    - By default, Hugo sets its `environment` to `production` when running `hugo`. The analytics code will use the `G-PPPPPPPPP` tag ID.
+    - By default, Hugo sets its `environment` to `production` when running `hugo build`. The analytics code will use the `G-PPPPPPPPP` tag ID.
 
 1. `config/staging/hugo.toml`
 
@@ -171,7 +197,7 @@ To satisfy these requirements, configure your site as follows:
       {{< /code-toggle >}}
 
     - You do not need to include other parameters in this file. Include only those parameters that are specific to your staging environment. Hugo will merge these parameters with the default configuration.
-    - To build your staging site, run `hugo --environment staging`. The analytics code will use the `G-SSSSSSSSS` tag ID.
+    - To build your staging site, run `hugo build --environment staging`. The analytics code will use the `G-SSSSSSSSS` tag ID.
 
 ## Merge configuration settings
 
@@ -191,7 +217,7 @@ and this project-level configuration:
 
 {{< code-toggle file=hugo >}}
 baseURL = 'https://example.org/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = 'My New Hugo Site'
 theme = ['theme-a','theme-b']
 {{< /code-toggle >}}
@@ -206,18 +232,21 @@ The `_merge` setting within each top-level configuration key controls _which_ se
 
 The value for `_merge` can be one of:
 
-none
+`none`
 : No merge.
 
-shallow
+`shallow`
 : Only add values for new keys.
 
-deep
+`deep`
 : Add values for new keys, merge existing.
 
 Note that you don't need to be so verbose as in the default setup below; a `_merge` value higher up will be inherited if not set.
 
 {{< code-toggle file=hugo dataKey="config_helpers.mergeStrategy" skipHeader=true />}}
+
+> [!note]
+> Hugo can merge map configuration values from modules and themes into the project configuration, but cannot merge slice values. This applies to top-level slice keys such as `menus`, as well as to map keys whose values are slices, such as the per-kind format lists in `outputs`.
 
 ## Environment variables
 
@@ -235,7 +264,7 @@ The above sets the [`baseURL`], [`enableGitInfo`], and [`environment`] configura
 > [!note]
 > An environment variable takes precedence over the values set in the configuration file. This means that if you set a configuration value with both an environment variable and in the configuration file, the value in the environment variable will be used.
 
-Environment variables simplify configuration for [CI/CD](g) deployments like GitHub Pages, GitLab Pages, and Netlify by allowing you to set values directly within their respective configuration and workflow files.
+Environment variables simplify configuration for [CI/CD](g) platforms by allowing you to set values directly within their respective configuration and workflow files.
 
 > [!note]
 > Environment variable names must be prefixed with `HUGO_`.
@@ -246,22 +275,21 @@ For snake_case variable names, the standard `HUGO_` prefix won't work. Hugo infe
 
 In addition to configuring standard settings, environment variables may be used to override default values for certain internal settings:
 
-DART_SASS_BINARY
+`DART_SASS_BINARY`
 : (`string`) The absolute path to the Dart Sass executable. By default, Hugo searches for the executable in each of the paths in the `PATH` environment variable.
 
-HUGO_FILE_LOG_FORMAT
+`HUGO_FILE_LOG_FORMAT`
 : (`string`) A format string for the file path, line number, and column number displayed when reporting errors, or when calling the `Position` method from a shortcode or Markdown render hook. Valid tokens are `:file`, `:line`, and `:col`. Default is `:file::line::col`.
 
-HUGO_MEMORYLIMIT
-: {{< new-in 0.123.0 />}}
-: (`int`) The maximum amount of system memory, in gigabytes, that Hugo can use while rendering your site. Default is 25% of total system memory. Note that `HUGO_MEMORYLIMIT` is a "best effort" setting. Don't expect Hugo to build a million pages with only 1 GB of memory. You can get more information about how this behaves during the build by building with `hugo --logLevel info` and look for the `dynacache` label.
+`HUGO_MEMORYLIMIT`
+: (`int`) The maximum amount of system memory, in gigabytes, that Hugo can use while rendering your site. Default is 25% of total system memory. Note that `HUGO_MEMORYLIMIT` is a "best effort" setting. Don't expect Hugo to build a million pages with only 1 GB of memory. You can get more information about how this behaves during the build by running `hugo build --logLevel info` and look for the `dynacache` label.
 
-HUGO_NUMWORKERMULTIPLIER
+`HUGO_NUMWORKERMULTIPLIER`
 : (`int`) The number of workers used in parallel processing. Default is the number of logical CPUs.
 
 ## Current configuration
 
-Display the complete site configuration with:
+Display the complete project configuration with:
 
 ```sh
 hugo config

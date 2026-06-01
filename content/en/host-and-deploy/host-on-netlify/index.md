@@ -18,7 +18,7 @@ Please complete the following tasks before continuing:
 1. [Log in](https://github.com/login) to your GitHub account
 1. [Create](https://github.com/new) a GitHub repository for your project
 1. [Create](https://git-scm.com/docs/git-init) a local Git repository for your project with a [remote](https://git-scm.com/docs/git-remote) reference to your GitHub repository
-1. Create a Hugo site within your local Git repository and test it with the `hugo server` command
+1. Create a Hugo project within your local Git repository and test it with the `hugo server` command
 1. Commit the changes to your local Git repository and push to your GitHub repository.
 
 ## Procedure
@@ -30,17 +30,17 @@ Step 1
 
   ```text {file="netlify.toml" copy=true}
   [build.environment]
-  DART_SASS_VERSION = "1.93.2"
-  GO_VERSION = "1.25.1"
-  HUGO_VERSION = "0.151.0"
-  NODE_VERSION = "22.18.0"
+  DART_SASS_VERSION = "1.99.0"
+  GO_VERSION = "1.26.2"
+  HUGO_VERSION = "0.161.1"
+  NODE_VERSION = "24.15.0"
   TZ = "Europe/Oslo"
 
   [build]
   publish = "public"
   command = """\
     git config core.quotepath false && \
-    hugo --gc --minify --baseURL "${URL}"
+    hugo build --gc --minify --baseURL "${URL}"
     """
   ```
 
@@ -48,10 +48,10 @@ Step 1
 
   ```text {file="netlify.toml" copy=true}
   [build.environment]
-  DART_SASS_VERSION = "1.93.2"
-  GO_VERSION = "1.25.1"
-  HUGO_VERSION = "0.151.0"
-  NODE_VERSION = "22.18.0"
+  DART_SASS_VERSION = "1.99.0"
+  GO_VERSION = "1.26.2"
+  HUGO_VERSION = "0.161.1"
+  NODE_VERSION = "24.15.0"
   TZ = "Europe/Oslo"
 
   [build]
@@ -62,7 +62,7 @@ Step 1
     rm "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
     export PATH="${HOME}/.local/dart-sass:${PATH}" && \
     git config core.quotepath false && \
-    hugo --gc --minify --baseURL "${URL}"
+    hugo build --gc --minify --baseURL "${URL}"
     """
   ```
 

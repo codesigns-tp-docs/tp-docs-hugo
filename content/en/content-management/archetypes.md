@@ -44,7 +44,7 @@ archetypes/
 
 Hugo looks for archetypes in the `archetypes` directory in the root of your project, falling back to the `archetypes` directory in themes or installed modules. An archetype for a specific content type takes precedence over the default archetype.
 
-For example, with this command:
+For example, if you have enabled a theme named `my-theme` and you run this command:
 
 ```sh
 hugo new content posts/my-first-post.md
@@ -53,35 +53,33 @@ hugo new content posts/my-first-post.md
 The archetype lookup order is:
 
 1. `archetypes/posts.md`
-1. `archetypes/default.md`
 1. `themes/my-theme/archetypes/posts.md`
+1. `archetypes/default.md`
 1. `themes/my-theme/archetypes/default.md`
 
 If none of these exists, Hugo uses a built-in default archetype.
 
 ## Functions and context
 
-You can use any template [function](g) within an archetype. As shown above, the default archetype uses the [`replace`](/functions/strings/replace) function to replace hyphens with spaces when populating the title in front matter.
+You can use any template [function](g) within an archetype. As shown above, the default archetype uses the [`strings.Replace`][] function to replace hyphens with spaces when populating the title in front matter.
 
 Archetypes receive the following [context](g):
 
-Date
+`Date`
 : (`string`) The current date and time, formatted in compliance with RFC3339.
 
-File
+`File`
 : (`hugolib.fileInfo`) Returns file information for the current page. See&nbsp;[details](/methods/page/file).
 
-Type
+`Type`
 : (`string`) The [content type](g) inferred from the top-level directory name, or as specified by the `--kind` flag passed to the `hugo new content` command.
 
-Site
+`Site`
 : (`page.Site`) The current site object. See&nbsp;[details](/methods/site/).
 
 ## Date format
 
-To insert date and time with a different format, use the [`time.Now`] function:
-
-[`time.Now`]: /functions/time/now/
+To insert date and time with a different format, use the [`time.Now`][] function:
 
 {{< code-toggle file=archetypes/default.md fm=true >}}
 title = '{{ replace .File.ContentBaseName `-` ` ` | title }}'
@@ -184,3 +182,6 @@ To create an article using the tutorials archetype:
 ```sh
 hugo new content --kind tutorials articles/something.md
 ```
+
+[`strings.Replace`]: /functions/strings/replace/
+[`time.Now`]: /functions/time/now/

@@ -10,22 +10,20 @@ params:
     signatures: [hugo.IsMultilingual]
 ---
 
-{{< new-in 0.124.0 />}}
-
-Site configuration:
+Project configuration:
 
 {{< code-toggle file=hugo >}}
 defaultContentLanguage = 'de'
 defaultContentLanguageInSubdir = true
 [languages]
   [languages.de]
-    languageCode = 'de-DE'
-    languageName = 'Deutsch'
+    label = 'Deutsch'
+    locale = 'de-DE'
     title = 'Projekt Dokumentation'
     weight = 1
   [languages.en]
-    languageCode = 'en-US'
-    languageName = 'English'
+    label = 'English'
+    locale = 'en-US'
     title = 'Project Documentation'
     weight = 2
 {{< /code-toggle >}}

@@ -78,7 +78,7 @@ When taxonomies are used Hugo will automatically create both a page listing all 
 
 ## Configuration
 
-See [configure taxonomies](/configuration/taxonomies/).
+See [configure taxonomies][].
 
 ## Assign terms to content
 
@@ -90,29 +90,26 @@ tags = ['Tag A','Tag B']
 categories = ['Category A','Category B']
 {{< /code-toggle >}}
 
-## Order taxonomies
+## Taxonomic weight
 
-A content file can assign weight for each of its associate taxonomies. Taxonomic weight can be used for sorting or ordering content in taxonomy templates and is declared in a content file's front matter. The convention for declaring taxonomic weight is `taxonomyname_weight`.
+{{% glossary-term "taxonomic weight" %}}
 
-The following show a piece of content that has a weight of 22, which can be used for ordering purposes when rendering the pages assigned to the "a", "b" and "c" values of the `tags` taxonomy. It has also been assigned the weight of 44 when rendering the "d" category page.
+Assign a taxonomic weight using a front matter key named `[taxonomy_name]_weight`.
 
-### Example: taxonomic `weight`
-
-{{< code-toggle file=hugo >}}
-title = "foo"
-tags = [ "a", "b", "c" ]
-tags_weight = 22
-categories = ["d"]
-categories_weight = 44
+{{< code-toggle file="content/courses/organic-chemistry.md" fm=true >}}
+title = 'Organic Chemistry'
+weight = 10
+tags_weight = 1000
+tags = ['chemistry','science']
 {{</ code-toggle >}}
 
-By using taxonomic weight, the same piece of content can appear in different positions in different taxonomies.
+With the front matter above, the `organic-chemistry` page will float towards the top of the list on section and home pages, and it will sink towards the bottom of the list on the `chemistry` and `science` term pages.
 
 ## Metadata
 
 Display metadata about each term by creating a corresponding branch bundle in the `content` directory.
 
-For example, create an "authors" taxonomy:
+For example, create an `authors` taxonomy:
 
 {{< code-toggle file=hugo >}}
 [taxonomies]
@@ -135,11 +132,11 @@ content/
 Then add front matter to each term page:
 
 {{< code-toggle file=content/authors/jsmith/_index.md fm=true >}}
-title = "John Smith"
-affiliation = "University of Chicago"
+title = 'John Smith'
+affiliation = 'University of Chicago'
 {{< /code-toggle >}}
 
-Then create a _taxonomy_ template specific to the "authors" taxonomy:
+Then create a _taxonomy_ template specific to the `authors` taxonomy:
 
 ```go-html-template {file="layouts/authors/taxonomy.html"}
 {{ define "main" }}
@@ -159,7 +156,7 @@ Then create a _taxonomy_ template specific to the "authors" taxonomy:
 
 In the example above we list each author including their affiliation and portrait.
 
-Or create a _term_ template specific to the "authors" taxonomy:
+Or create a _term_ template specific to the `authors` taxonomy:
 
 ```go-html-template {file="layouts/authors/term.html"}
 {{ define "main" }}
@@ -178,3 +175,5 @@ Or create a _term_ template specific to the "authors" taxonomy:
 ```
 
 In the example above we display the author including their affiliation and portrait, then a list of associated content.
+
+[configure taxonomies]: /configuration/taxonomies/

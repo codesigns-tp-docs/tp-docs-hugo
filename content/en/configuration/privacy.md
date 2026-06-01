@@ -20,7 +20,7 @@ Hugo's privacy settings can assist in compliance efforts.
 
 ## Embedded templates
 
-Hugo provides [embedded templates](g) to simplify site and content creation. Some of these templates interact with external services. For example, the `youtube` shortcode connects with YouTube's servers to embed videos on your site.
+Hugo provides [embedded templates](g) to simplify project and content creation. Some of these templates interact with external services. For example, the `youtube` shortcode connects with YouTube's servers to embed videos.
 
 Some of these templates include settings to enhance privacy.
 
@@ -35,9 +35,16 @@ These are the default privacy settings for Hugo's embedded templates:
 
 See each template's documentation for a description of its privacy settings:
 
-- [Disqus partial](/templates/embedded/#privacy-disqus)
-- [Google Analytics partial](/templates/embedded/#privacy-google-analytics)
-- [Instagram shortcode](/shortcodes/instagram/#privacy)
-- [Vimeo shortcode](/shortcodes/vimeo/#privacy)
-- [X shortcode](/shortcodes/x/#privacy)
-- [YouTube shortcode](/shortcodes/youtube/#privacy)
+- [Disqus partial][]
+- [Google Analytics partial][]
+- [Instagram shortcode][]
+- [Vimeo shortcode][]
+- [X shortcode][]
+- [YouTube shortcode][]
+
+[Disqus partial]: /templates/embedded/#privacy-disqus
+[Google Analytics partial]: /templates/embedded/#privacy-google-analytics
+[Instagram shortcode]: /shortcodes/instagram/#privacy
+[Vimeo shortcode]: /shortcodes/vimeo/#privacy
+[X shortcode]: /shortcodes/x/#privacy
+[YouTube shortcode]: /shortcodes/youtube/#privacy

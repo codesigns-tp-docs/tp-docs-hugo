@@ -18,7 +18,7 @@ defaultMarkdownHandler = 'goldmark'
 
 Files with ending with `.md`, `.mdown`, or `.markdown` are processed as Markdown, unless you've explicitly set a different format using the `markup` field in your front matter.
 
-To use a different renderer for Markdown files, specify one of `asciidocext`, `org`, `pandoc`, or `rst` in your site configuration.
+To use a different renderer for Markdown files, specify one of `asciidocext`, `org`, `pandoc`, or `rst` in your project configuration.
 
 `defaultMarkdownHandler`|Renderer
 :--|:--
@@ -58,8 +58,6 @@ Extension|Documentation|Enabled
 
 #### Extras
 
-{{< new-in 0.126.0 />}}
-
 Enable [deleted text], [inserted text], [mark text], [subscript], and [superscript] elements in Markdown.
 
 Element|Markdown|Rendered
@@ -98,21 +96,19 @@ With this configuration, to format text as deleted, wrap it with double-tildes.
 
 Enabled by default, the Footnote extension enables inclusion of footnotes in Markdown.
 
-enable
+`enable`
 : {{< new-in 0.151.0 />}}
 : (`bool`) Whether to enable the Footnotes extension. Default is `true`.
 
-backlinkHTML
+`backlinkHTML`
 : {{< new-in 0.151.0 />}}
 : (`string`) The HTML to be displayed at the end of a footnote that links the user back to the corresponding reference in the main text. The default is &#x21a9;&#xfe0e; (a return arrow symbol).
 
-enableAutoIDPrefix
+`enableAutoIDPrefix`
 : {{< new-in 0.151.0 />}}
 : (`bool`) Whether to prepend a unique prefix to footnote IDs, preventing clashes when multiple documents are rendered together. This prefix is unique to each logical path, which means that the prefix is not unique across content dimensions such as language. Default is `false`.
 
 #### Passthrough
-
-{{< new-in 0.122.0 />}}
 
 Enable the Passthrough extension to include mathematical equations and expressions in Markdown using LaTeX markup. See [mathematics in Markdown] for details.
 
@@ -137,24 +133,23 @@ Markdown|Replaced by|Description
 
 Most of the Goldmark settings above are self-explanatory, but some require explanation.
 
-duplicateResourceFiles
-: {{< new-in 0.123.0 />}}
-: (`bool`) Whether to duplicate shared page resources for each language on multilingual single-host sites. See [multilingual page resources] for details. Default is `false`.
+`duplicateResourceFiles`
+: (`bool`) Whether to duplicate shared page resources for each language on multilingual single-host projects. See [multilingual page resources] for details. Default is `false`.
 
   > [!note]
-  > With multilingual single-host sites, setting this parameter to `false` will enable Hugo's [embedded link render hook] and [embedded image render hook]. This is the default configuration for multilingual single-host sites.
+  > With multilingual single-host projects, setting this parameter to `false` will enable Hugo's [embedded link render hook] and [embedded image render hook]. This is the default configuration for multilingual single-host projects.
 
-parser.wrapStandAloneImageWithinParagraph
+`parser.wrapStandAloneImageWithinParagraph`
 : (`bool`) Whether to wrap image elements without adjacent content within a `p` element when rendered. This is the default Markdown behavior. Set to `false` when using an [image render hook] to render standalone images as `figure` elements. Default is `true`.
 
-parser.autoDefinitionTermID
+`parser.autoDefinitionTermID`
 : {{< new-in 0.144.0 />}}
 : (`bool`) Whether to automatically add `id` attributes to description list terms (i.e., `dt` elements). When `true`, the `id` attribute of each `dt` element is accessible through the [`Fragments.Identifiers`] method on a `Page` object.
 
-parser.autoHeadingID
+`parser.autoHeadingID`
 : (`bool`) Whether to automatically add `id` attributes to headings (i.e., `h1`, `h2`, `h3`, `h4`, `h5`, and `h6` elements).
 
-parser.autoIDType
+`parser.autoIDType`
 : (`string`) The strategy used to automatically generate `id` attributes, one of `github`, `github-ascii` or `blackfriday`. Default is `github`.
 
   - `github`: Generate GitHub-compatible `id` attributes
@@ -163,44 +158,41 @@ parser.autoIDType
 
   This is also the strategy used by the [anchorize] template function.
 
-parser.attribute.block
+`parser.attribute.block`
 : (`bool`) Whether to enable [Markdown attributes] for block elements. Default is `false`.
 
-parser.attribute.title
+`parser.attribute.title`
 : (`bool`) Whether to enable [Markdown attributes] for headings. Default is `true`.
 
-<!-- TODO: delete this on or after July 1, 2027. -->
-renderHooks.image.enableDefault
-: {{< new-in 0.123.0 />}}
-: Deprecated in v0.148.0. Use `renderHooks.image.useEmbedded` instead.
+`renderHooks.image.enableDefault`
+: {{< deprecated-in 0.148.0 />}}
+: Use `renderHooks.image.useEmbedded` instead.
 
-renderHooks.image.useEmbedded
+`renderHooks.image.useEmbedded`
 : {{< new-in 0.148.0 />}}
 : (`string`) When to use the [embedded image render hook]. One of `auto`, `never`, `always`, or `fallback`. Default is `auto`.
 
-  - `auto`: Automatically use the embedded image render hook for multilingual single-host sites, specifically when the [duplication of shared page resources] feature is disabled. This is the default behavior for such sites. If custom image render hooks are defined by your project, modules, or themes, these will be used instead.
+  - `auto`: Use the embedded image render hook only for multilingual single-host projects where the [duplication of shared page resources] feature is disabled. If custom image render hooks are defined by your project, modules, or themes, these will be used instead.
   - `never`: Never use the embedded image render hook. If custom image render hooks are defined by your project, modules, or themes, these will be used instead.
-  - `always`: Always use the embedded image render hook, even if custom image render hooks are provided by your project, modules, or themes. In this case, the embedded hook takes precedence.
+  - `always`: Always use the embedded image render hook, even if custom image render hooks are provided by your project, modules, or themes.
   - `fallback`: Use the embedded image render hook only if custom image render hooks are not provided by your project, modules, or themes. If custom image render hooks exist, these will be used instead.
 
-<!-- TODO: delete this on or after July 1, 2027. -->
-renderHooks.link.enableDefault
-: {{< new-in 0.123.0 />}}
-: Deprecated in v0.148.0. Use `renderHooks.link.useEmbedded` instead.
+`renderHooks.link.enableDefault`
+: {{< deprecated-in 0.148.0 />}}
+: Use `renderHooks.link.useEmbedded` instead.
 
-renderHooks.link.useEmbedded
-: {{< new-in 0.148.0 />}}
+`renderHooks.link.useEmbedded`
 : (`string`) When to use the [embedded link render hook]. One of `auto`, `never`, `always`, or `fallback`. Default is `auto`.
 
-  - `auto`: Automatically use the embedded link render hook for multilingual single-host sites, specifically when the [duplication of shared page resources] feature is disabled. This is the default behavior for such sites. If custom link render hooks are defined by your project, modules, or themes, these will be used instead.
+  - `auto`: Use the embedded link render hook only for multilingual single-host projects where the [duplication of shared page resources] feature is disabled. If custom link render hooks are defined by your project, modules, or themes, these will be used instead.
   - `never`: Never use the embedded link render hook. If custom link render hooks are defined by your project, modules, or themes, these will be used instead.
-  - `always`: Always use the embedded link render hook, even if custom link render hooks are provided by your project, modules, or themes. In this case, the embedded hook takes precedence.
+  - `always`: Always use the embedded link render hook, even if custom link render hooks are provided by your project, modules, or themes.
   - `fallback`: Use the embedded link render hook only if custom link render hooks are not provided by your project, modules, or themes. If custom link render hooks exist, these will be used instead.
 
-renderer.hardWraps
+`renderer.hardWraps`
 : (`bool`) Whether to replace newline characters within a paragraph with `br` elements. Default is `false`.
 
-renderer.unsafe
+`renderer.unsafe`
 : (`bool`) Whether to render raw HTML mixed within Markdown. This is unsafe unless the content is under your control. Default is `false`.
 
 ## AsciiDoc
@@ -211,51 +203,51 @@ This is the default configuration for the AsciiDoc renderer:
 
 ### AsciiDoc settings explained
 
-attributes
+`attributes`
 : (`map`) A map of key-value pairs, each a document attribute. See Asciidoctor's [attributes].
 
-backend
+`backend`
 : (`string`) The backend output file format. Default is `html5`.
 
-extensions
-: (`string array`) An array of enabled extensions, one or more of `asciidoctor-html5s`, `asciidoctor-bibtex`, `asciidoctor-diagram`, `asciidoctor-interdoc-reftext`, `asciidoctor-katex`, `asciidoctor-latex`, `asciidoctor-mathematical`, or `asciidoctor-question`.
+`extensions`
+: (`[]string`) An array of enabled extensions, such as `asciidoctor-html5s`, `asciidoctor-bibtex`, or `asciidoctor-diagram`.
 
   > [!note]
   > To mitigate security risks, entries in the extension array may not contain forward slashes (`/`), backslashes (`\`), or periods. Due to this restriction, extensions must be in Ruby's `$LOAD_PATH`.
 
-failureLevel
+`failureLevel`
 : (`string`) The minimum logging level that triggers a non-zero exit code (failure). Default is `fatal`.
 
-noHeaderOrFooter
+`noHeaderOrFooter`
 : (`bool`) Whether to output an embeddable document, which excludes the header, the footer, and everything outside the body of the document. Default is `true`.
 
-preserveTOC
+`preserveTOC`
 : (`bool`) Whether to preserve the table of contents (TOC) rendered by Asciidoctor. By default, to make the TOC compatible with existing themes, Hugo removes the TOC rendered by Asciidoctor. To render the TOC, use the [`TableOfContents`] method on a `Page` object in your templates. Default is `false`.
 
-safeMode
+`safeMode`
 : (`string`) The safe mode level, one of `unsafe`, `safe`, `server`, or `secure`. Default is `unsafe`.
 
-sectionNumbers
+`sectionNumbers`
 : (`bool`) Whether to number each section title. Default is `false`.
 
-trace
+`trace`
 : (`bool`) Whether to include backtrace information on errors. Default is `false`.
 
-verbose
+`verbose`
 : (`bool`) Whether to verbosely print processing information and configuration file checks to stderr. Default is `false`.
 
-workingFolderCurrent
+`workingFolderCurrent`
 : (`bool`) Whether to set the working directory to be the same as that of the AsciiDoc file being processed, allowing [includes] to work with relative paths. Set to `true` to render diagrams with the [asciidoctor-diagram] extension. Default is `false`.
 
 ### Configuration example
 
 {{< code-toggle file=hugo >}}
 [markup.asciidocExt]
-    extensions = ["asciidoctor-html5s", "asciidoctor-diagram"]
-    workingFolderCurrent = true
-    [markup.asciidocExt.attributes]
-        my-base-url = "https://example.com/"
-        my-attribute-name = "my value"
+extensions = ['asciidoctor-html5s','asciidoctor-diagram']
+workingFolderCurrent = true
+[markup.asciidocExt.attributes]
+my-base-url = 'https://example.com/'
+my-attribute-name = 'my value'
 {{< /code-toggle >}}
 
 ### Syntax highlighting
@@ -263,7 +255,7 @@ workingFolderCurrent
 Follow the steps below to enable syntax highlighting.
 
 Step 1
-: Set the `source-highlighter` attribute in your site configuration. For example:
+: Set the `source-highlighter` attribute in your project configuration. For example:
 
   {{< code-toggle file=hugo >}}
   [markup.asciidocExt.attributes]
@@ -306,7 +298,7 @@ Step 4
 
 ### Troubleshooting
 
-Run `hugo --logLevel debug` to examine Hugo's call to the Asciidoctor executable:
+Run `hugo build --logLevel debug` to examine Hugo's call to the Asciidoctor executable:
 
 ```txt
 INFO 2019/12/22 09:08:48 Rendering book-as-pdf.adoc with C:\Ruby26-x64\bin\asciidoctor.bat using asciidoc args [--no-header-footer -r asciidoctor-html5s -b html5s -r asciidoctor-diagram --base-dir D:\prototypes\hugo_asciidoc_ddd\docs -a outdir=D:\prototypes\hugo_asciidoc_ddd\build -] ...
@@ -326,13 +318,13 @@ This is the default configuration for the table of contents, applicable to Goldm
 
 {{< code-toggle config=markup.tableOfContents />}}
 
-startLevel
+`startLevel`
 : (`int`) Heading levels less than this value will be excluded from the table of contents. For example, to exclude `h1` elements from the table of contents, set this value to `2`. Default is `2`.
 
-endLevel
+`endLevel`
 : (`int`) Heading levels greater than this value will be excluded from the table of contents. For example, to exclude `h4`, `h5`, and `h6` elements from the table of contents, set this value to `3`. Default is `3`.
 
-ordered
+`ordered`
 : (`bool`) Whether to generates an ordered list instead of an unordered list. Default is `false`.
 
 [`Fragments.Identifiers`]: /methods/page/fragments/#identifiers

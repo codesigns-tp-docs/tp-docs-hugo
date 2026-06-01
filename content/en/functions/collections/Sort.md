@@ -1,13 +1,13 @@
 ---
 title: collections.Sort
-description: Sorts slices, maps, and page collections.
+description: Returns a sorted map or slice by reordering the given collection by a key and order.
 categories: []
 keywords: []
 params:
   functions_and_methods:
     aliases: [sort]
     returnType: any
-    signatures: ['collections.Sort COLLECTION [KEY] [ORDER]']
+    signatures: ['collections.Sort MAP|SLICE [KEY] [ORDER]']
 aliases: [/functions/sort]
 ---
 
@@ -17,7 +17,7 @@ The `ORDER` may be either `asc` (ascending) or `desc` (descending). The default 
 
 ## Sort a slice
 
-The examples below assume this site configuration:
+The examples below assume this project configuration:
 
 {{< code-toggle file=hugo >}}
 [params]
@@ -47,18 +47,18 @@ In the example above, `value` is the `KEY` representing the value of the slice e
 
 ## Sort a map
 
-The examples below assume this site configuration:
+The examples below assume this project configuration:
 
 {{< code-toggle file=hugo >}}
 [params.authors.a]
-firstName = "Marius"
-lastName  = "Pontmercy"
+firstName = 'Marius'
+lastName  = 'Pontmercy'
 [params.authors.b]
-firstName = "Victor"
-lastName  = "Hugo"
+firstName = 'Victor'
+lastName  = 'Hugo'
 [params.authors.c]
-firstName = "Jean"
-lastName  = "Valjean"
+firstName = 'Jean'
+lastName  = 'Valjean'
 {{< /code-toggle >}}
 
 > [!note]

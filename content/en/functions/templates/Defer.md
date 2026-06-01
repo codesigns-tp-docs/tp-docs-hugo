@@ -11,14 +11,13 @@ params:
 aliases: [/functions/templates.defer]
 ---
 
-{{< new-in 0.128.0 />}}
-
 > [!note]
-> This feature should only be used in the main template, typically `layouts/baseof.html`. Using it in _shortcode_, _partial_, or _render hook_ templates may lead to unpredictable results. For further details, please refer to [this issue].
+> Do not call this function within a `partialCached` template. This restriction applies transitively: if `partialCached` calls a partial that calls `templates.Defer`, Hugo returns an error. Using this function within shortcode or render hook templates may also lead to unpredictable results.
 
-[this issue]: https://github.com/gohugoio/hugo/issues/13492#issuecomment-2734700391
+In some rare use cases, you may need to defer the execution of a template until after all sites and output formats have been rendered. One such example could be [css.TailwindCSS][] using the output of [hugo_stats.json][] to determine which classes and other HTML identifiers are being used in the final output:
 
-In some rare use cases, you may need to defer the execution of a template until after all sites and output formats have been rendered. One such example could be [TailwindCSS](/functions/css/tailwindcss/) using the output of [hugo_stats.json](/configuration/build/) to determine which classes and other HTML identifiers are being used in the final output:
+[css.TailwindCSS]: /functions/css/tailwindcss/
+[hugo_stats.json]: /configuration/build/
 
 ```go-html-template {file="layouts/baseof.html" copy=true}
 <head>
@@ -76,22 +75,26 @@ For the above to work well when running the server (or `hugo -w`), you want to h
 
 The `templates.Defer` function takes a single argument, a map with the following optional keys:
 
-key (`string`)
-: The key to use for the deferred template. This will, combined with a hash of the template content, be used as a cache key. If this is not set, Hugo will execute the deferred template on every render. This is not what you want for shared resources like CSS and JavaScript.
+`key`
+: (`string`) The key to use for the deferred template. This will, combined with a hash of the template content, be used as a cache key. If this is not set, Hugo will execute the deferred template on every render. This is not what you want for shared resources like CSS and JavaScript.
 
-data (`map`)
-: Optional map to pass as data to the deferred template. This will be available in the deferred template as `.` or `$`.
+`data`
+: (`map`) Optional map to pass as data to the deferred template. This will be available in the deferred template as `.` or `$`.
 
 ```go-html-template
-Language Outside: {{ site.Language.Lang }}
+Language Outside: {{ site.Language.Name }}
 Page Outside: {{ .RelPermalink }}
 I18n Outside: {{ i18n "hello" }}
 {{ $data := (dict "page" . )}}
 {{ with (templates.Defer (dict "data" $data )) }}
-     Language Inside: {{ site.Language.Lang }}
+     Language Inside: {{ site.Language.Name }}
      Page Inside: {{ .page.RelPermalink }}
      I18n Inside: {{ i18n "hello" }}
 {{ end }}
 ```
 
-The [output format](/configuration/output-formats/), [site](/methods/page/site/), and [language](/methods/site/language) will be the same, even if the execution is deferred. In the example above, this means that the `site.Language.Lang` and `.RelPermalink` will be the same on the inside and the outside of the deferred template.
+The [output format][], [site][], and [language][] will be the same, even if the execution is deferred. In the example above, this means that the `site.Language.Name` and `.RelPermalink` will be the same on the inside and the outside of the deferred template.
+
+[language]: /methods/site/language/
+[output format]: /configuration/output-formats/
+[site]: /methods/page/site/

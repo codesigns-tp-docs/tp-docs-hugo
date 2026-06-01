@@ -10,7 +10,10 @@ params:
     signatures: ['js.Build [OPTIONS] RESOURCE']
 ---
 
-The `js.Build` function uses the [evanw/esbuild] package to:
+> [!note]
+> The `js.Build` function is backed by the [`evanw/esbuild`][] package, providing a mature, high-performance foundation for bundling, transformation, and minification.
+
+Use the `js.Build` function to:
 
 - Bundle
 - Transpile (TypeScript and JSX)
@@ -21,9 +24,8 @@ The `js.Build` function uses the [evanw/esbuild] package to:
 ```go-html-template
 {{ with resources.Get "js/main.js" }}
   {{$opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/main.js"
+    "minify" (cond hugo.IsDevelopment false true)
+    "sourceMap" (cond hugo.IsDevelopment "linked" "none")
   }}
   {{ with . | js.Build $opts }}
     {{ if hugo.IsDevelopment }}
@@ -39,17 +41,17 @@ The `js.Build` function uses the [evanw/esbuild] package to:
 
 ## Options
 
-targetPath
+`targetPath`
 : (`string`) If not set, the source path will be used as the base target path. Note that the target path's extension may change if the target MIME type is different, e.g. when the source is TypeScript.
 
-format
+`format`
 : (`string`) The output format. One of: `iife`, `cjs`, `esm`. Default is `iife`, a self-executing function, suitable for inclusion as a `<script>` tag.
 
 {{% include "/_common/functions/js/options.md" %}}
 
 ## Import JS code from the assets directory
 
-`js.Build` has full support for the virtual union file system in [Hugo Modules](/hugo-modules/). You can see some simple examples in this [test project](https://github.com/gohugoio/hugoTestProjectJSModImports), but in short this means that you can do this:
+`js.Build` has full support for Hugo's [unified file system](g). You can see some simple examples in this [test project](https://github.com/gohugoio/hugoTestProjectJSModImports), but in short this means that you can do this:
 
 ```js
 import { hello } from 'my/module';
@@ -75,7 +77,7 @@ For other files (e.g. `JSON`, `CSS`) you need to use the relative path including
 import * as data from 'my/module/data.json';
 ```
 
-Any imports in a file outside `assets` or that does not resolve to a component inside `assets` will be resolved by [ESBuild](https://esbuild.github.io/) with the **project directory** as the resolve directory (used as the starting point when looking for `node_modules` etc.). Also see [hugo mod npm pack](/commands/hugo_mod_npm_pack/). If you have any imported npm dependencies in your project, you need to make sure to run `npm install` before you run `hugo`.
+Any imports in a file outside `assets` or that does not resolve to a component inside `assets` will be resolved by [esbuild](https://esbuild.github.io/) with the **project directory** as the resolve directory (used as the starting point when looking for `node_modules` etc.). Also see [hugo mod npm pack](/commands/hugo_mod_npm_pack/). If you have any imported npm dependencies in your project, you need to make sure to run `npm install` before you run `hugo build`.
 
 Also note the new `params` option that can be passed from template to your JS files, e.g.:
 
@@ -93,9 +95,9 @@ Hugo will, by default, generate a `assets/jsconfig.json` file that maps the impo
 
 ## Node.js dependencies
 
-Use the `js.Build` function to include Node.js dependencies.
+Use the `js.Build` function to include Node dependencies.
 
-Any imports in a file outside `assets` or that does not resolve to a component inside `assets` will be resolved by [esbuild](https://esbuild.github.io/) with the **project directory** as the resolve directory (used as the starting point when looking for `node_modules` etc.). Also see [hugo mod npm pack](/commands/hugo_mod_npm_pack/). If you have any imported npm dependencies in your project, you need to make sure to run `npm install` before you run `hugo`.
+Any imports in a file outside `assets` or that does not resolve to a component inside `assets` will be resolved by [esbuild](https://esbuild.github.io/) with the **project directory** as the resolve directory (used as the starting point when looking for `node_modules` etc.). Also see [hugo mod npm pack](/commands/hugo_mod_npm_pack/). If you have any imported npm dependencies in your project, you need to make sure to run `npm install` before you run `hugo build`.
 
 The start directory for resolving npm packages (aka. packages that live inside a `node_modules` directory) is always the main project directory.
 
@@ -119,4 +121,4 @@ Or with options:
 <script src="{{ $built.RelPermalink }}" defer></script>
 ```
 
-[evanw/esbuild]: https://github.com/evanw/esbuild
+[`evanw/esbuild`]: https://github.com/evanw/esbuild

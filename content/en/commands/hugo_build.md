@@ -5,11 +5,11 @@ url: /commands/hugo_build/
 ---
 ## hugo build
 
-Build your site
+Build your project
 
 ### Synopsis
 
-build is the main command, used to build your Hugo site.
+build is the main command, used to build your Hugo project.
 
 Hugo is a Fast and Flexible Static Site Generator
 built with love by spf13 and friends in Go.
@@ -40,7 +40,7 @@ hugo build [flags]
       --forceSyncStatic            copy all files when static is changed.
       --gc                         enable to run some cleanup tasks (remove unused cache files) after the build
   -h, --help                       help for build
-      --ignoreCache                ignores the cache directory
+      --ignoreCache                ignore the configured file caches
       --ignoreVendorPaths string   ignores any _vendor for module paths matching the given Glob pattern
   -l, --layoutDir string           filesystem path to layout directory
       --logLevel string            log level (debug|info|warn|error)
@@ -68,5 +68,4 @@ hugo build [flags]
 
 ### SEE ALSO
 
-* [hugo](/commands/hugo/)	 - Build your site
-
+* [hugo](/commands/hugo/)	 - Build your project

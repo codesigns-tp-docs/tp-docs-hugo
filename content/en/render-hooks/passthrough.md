@@ -6,8 +6,6 @@ categories: []
 keywords: []
 ---
 
-{{< new-in 0.132.0 />}}
-
 ## Overview
 
 Hugo uses [Goldmark] to render Markdown to HTML. Goldmark supports custom extensions to extend its core functionality. The [Passthrough] extension captures and preserves raw Markdown within delimited snippets of text, including the delimiters themselves. These are known as _passthrough elements_.
@@ -27,7 +25,7 @@ passthrough element with opening and closing block delimiters.
 This is an \(inline\) passthrough element with opening and closing inline delimiters.
 ```
 
-Update your site configuration to enable the Passthrough extension and define opening and closing delimiters for each passthrough element type, either `block` or `inline`. For example:
+Update your project configuration to enable the Passthrough extension and define opening and closing delimiters for each passthrough element type, either `block` or `inline`. For example:
 
 {{< code-toggle file=hugo >}}
 [markup.goldmark.extensions.passthrough]
@@ -49,7 +47,7 @@ To enable custom rendering of passthrough elements, create a passthrough render 
 
 Passthrough _render hook_ templates receive the following [context](g):
 
-Attributes
+`Attributes`
 : (`map`) The [Markdown attributes], available if you configure your site as follows:
 
   {{< code-toggle file=hugo >}}
@@ -59,22 +57,22 @@ Attributes
 
   Hugo populates the `Attributes` map for _block_ passthrough elements. Markdown attributes are not applicable to _inline_ elements.
 
-Inner
+`Inner`
 : (`string`) The inner content of the passthrough element, excluding the delimiters.
 
-Ordinal
+`Ordinal`
 : (`int`) The zero-based ordinal of the passthrough element on the page.
 
-Page
+`Page`
 : (`page`) A reference to the current page.
 
-PageInner
+`PageInner`
 : (`page`) A reference to a page nested via the [`RenderShortcodes`] method. [See details](#pageinner-details).
 
-Position
+`Position`
 : (`string`) The position of the passthrough element within the page content.
 
-Type
+`Type`
 : (`string`) The passthrough element type, either `block` or `inline`.
 
 [Markdown attributes]: /content-management/markdown-attributes/
@@ -104,7 +102,12 @@ Then, in your base template, conditionally include the KaTeX CSS within the head
 <head>
   {{ $noop := .WordCount }}
   {{ if .Page.Store.Get "hasMath" }}
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.23/dist/katex.min.css" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css"
+      integrity="sha384-WcoG4HRXMzYzfCgiyfrySxx90XSl2rxY5mnVY5TwtWE6KLrArNKn0T/mOgNL0Mmi"
+      crossorigin="anonymous"
+    >
   {{ end }}
 </head>
 ```

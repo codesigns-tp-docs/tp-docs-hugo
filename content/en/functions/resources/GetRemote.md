@@ -13,8 +13,7 @@ params:
 {{< new-in 0.141.0 >}}
 The `Err` method on the returned resource was removed in v0.141.0.
 
-Use the [`try`] statement instead, as shown in the [error handling] example below.
-
+Use the [`try`][] statement instead, as shown in the [error handling](#error-handling) example below.
 {{< /new-in >}}
 
 ```go-html-template
@@ -34,28 +33,30 @@ Use the [`try`] statement instead, as shown in the [error handling] example belo
 
 The `resources.GetRemote` function takes an optional map of options.
 
-body
+`body`
 : (`string`) The data you want to transmit to the server.
 
-headers
+`headers`
 : (`map[string][]string`) The collection of key-value pairs that provide additional information about the request.
 
-key
+`key`
 : (`string`) The cache key. Hugo derives the default value from the URL and options map. See [caching](#caching).
 
-method
+`method`
 : (`string`) The action to perform on the requested resource, typically one of `GET`, `POST`, or `HEAD`.
 
-responseHeaders
+`responseHeaders`
 : {{< new-in 0.143.0 />}}
-: (`[]string`) The headers to extract from the server's response, accessible through the resource's [`Data.Headers`] method. Header name matching is case-insensitive.
+: (`[]string`) The headers to extract from the server's response, accessible through the resource's [`Data.Headers`][] method. Header name matching is case-insensitive.
 
-[`Data.Headers`]: /methods/resource/data/#headers
+`timeout`
+: {{< new-in 0.157.0 />}}
+: (`string`) The duration after which the request is cancelled if it does not complete, expressed as a [duration](g). If not specified, the request will timeout after 2 minutes.
 
 ## Options examples
 
 > [!note]
-> For brevity, the examples below do not include [error handling].
+> For brevity, the examples below do not include [error handling][].
 
 To include a header:
 
@@ -110,11 +111,23 @@ To extract specific headers from the server's response:
 {{ $resource := resources.GetRemote $url $opts }}
 ```
 
+Use the `timeout` option to prevent slow external requests from stalling the build when fetching multiple remote feeds:
+
+```go-html-template
+{{ $url := "https://example.org/feed.rss" }}
+{{ $opts := dict "timeout" "10s" }}
+{{ with try (resources.GetRemote $url $opts) }}
+  {{ with .Err }}
+    {{ warnf "Failed to fetch feed: %s" . }}
+  {{ else with .Value }}
+    {{ $data = . | transform.Unmarshal }}
+  {{ end }}
+{{ end }}
+```
+
 ## Remote data
 
-When retrieving remote data, use the [`transform.Unmarshal`] function to [unmarshal](g) the response.
-
-[`transform.Unmarshal`]: /functions/transform/unmarshal/
+When retrieving remote data, use the [`transform.Unmarshal`][] function to [unmarshal](g) the response.
 
 ```go-html-template
 {{ $data := dict }}
@@ -131,7 +144,7 @@ When retrieving remote data, use the [`transform.Unmarshal`] function to [unmars
 ```
 
 > [!note]
-> When retrieving remote data, a misconfigured server may send a response header with an incorrect [Content-Type]. For example, the server may set the Content-Type header to `application/octet-stream` instead of `application/json`.
+> When retrieving remote data, a misconfigured server may send a response header with an incorrect [Content-Type][]. For example, the server may set the Content-Type header to `application/octet-stream` instead of `application/json`.
 >
 > In these cases, pass the resource `Content` through the `transform.Unmarshal` function instead of passing the resource itself. For example, in the above, do this instead:
 >
@@ -139,7 +152,7 @@ When retrieving remote data, use the [`transform.Unmarshal`] function to [unmars
 
 ## Error handling
 
-Use the [`try`] statement to capture HTTP request errors. If you do not handle the error yourself, Hugo will fail the build.
+Use the [`try`][] statement to capture HTTP request errors. If you do not handle the error yourself, Hugo will fail the build.
 
 > [!note]
 > Hugo does not classify an HTTP response with status code 404 as an error. In this case `resources.GetRemote` returns nil.
@@ -174,13 +187,11 @@ To log an error as a warning instead of an error:
 
 ## HTTP response
 
-The [`Data`] method on a resource returned by the `resources.GetRemote` function returns information from the HTTP response.
-
-[`Data`]: /methods/resource/data/
+The [`Data`][] method on a resource returned by the `resources.GetRemote` function returns information from the HTTP response.
 
 ## Caching
 
-Resources returned from `resources.GetRemote` are cached to disk. See [configure file caches] for details.
+Resources returned from `resources.GetRemote` are cached to disk. See [configure file caches][] for details.
 
 By default, Hugo derives the cache key from the arguments passed to the function. Override the cache key by setting a `key` in the options map. Use this approach to have more control over how often Hugo fetches a remote resource.
 
@@ -195,11 +206,11 @@ By default, Hugo derives the cache key from the arguments passed to the function
 
 To protect against malicious intent, the `resources.GetRemote` function inspects the server response including:
 
-- The [Content-Type] in the response header
+- The [Content-Type][] in the response header
 - The file extension, if any
 - The content itself
 
-If Hugo is unable to resolve the media type to an entry in its [allowlist], the function throws an error:
+If Hugo is unable to resolve the media type to an entry in its [allowlist][], the function throws an error:
 
 ```text
 ERROR error calling resources.GetRemote: failed to resolve media type...
@@ -207,11 +218,11 @@ ERROR error calling resources.GetRemote: failed to resolve media type...
 
 For example, you will see the error above if you attempt to download an executable.
 
-Although the allowlist contains entries for common media types, you may encounter situations where Hugo is unable to resolve the media type of a file that you know to be safe. In these situations, edit your site configuration to add the media type to the allowlist. For example:
+Although the allowlist contains entries for common media types, you may encounter situations where Hugo is unable to resolve the media type of a file that you know to be safe. In these situations, edit your project configuration to add the media type to the allowlist. For example:
 
 {{< code-toggle file=hugo >}}
 [security.http]
-mediaTypes = ['^image/avif$','^application/vnd\.api\+json$']
+mediaTypes = ['^application/vnd\.api\+json$']
 {{< /code-toggle >}}
 
 Note that the entry above is:
@@ -219,9 +230,11 @@ Note that the entry above is:
 - An _addition_ to the allowlist; it does not _replace_ the allowlist
 - An array of [regular expressions](g)
 
-[allowlist]: https://en.wikipedia.org/wiki/Whitelist
 [Content-Type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type
-
+[`Data.Headers`]: /methods/resource/data/#headers
+[`Data`]: /methods/resource/data/
+[`transform.Unmarshal`]: /functions/transform/unmarshal/
 [`try`]: /functions/go-template/try
+[allowlist]: https://en.wikipedia.org/wiki/Whitelist
 [configure file caches]: /configuration/caches/
 [error handling]: #error-handling

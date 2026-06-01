@@ -23,10 +23,10 @@ The following is the default configuration that matches the table above:
 
 {{< code-toggle file=hugo config=mediaTypes />}}
 
-delimiter
+`delimiter`
 : (`string`) The delimiter between the file name and the suffix. The delimiter, in conjunction with the suffix, forms the file extension. Default is `"."`.
 
-suffixes
+`suffixes`
 : (`[]string`) The suffixes associated with this media type. The first suffix is the primary suffix.
 
 ## Modify a media type
@@ -61,21 +61,21 @@ Occasionally, you may need to create a media type without a suffix or delimiter.
 To support these custom output formats, register a custom media type with no suffix or delimiter:
 
 {{< code-toggle file=hugo >}}
-[mediaTypes."text/netlify"]
-delimiter = ""
+[mediaTypes.'text/netlify']
+delimiter = ''
 {{< /code-toggle >}}
 
 The custom output format definitions would look something like this:
 
 {{< code-toggle file=hugo >}}
 [outputFormats.redir]
-baseName    = "_redirects"
+baseName    = '_redirects'
 isPlainText = true
-mediatype   = "text/netlify"
+mediatype   = 'text/netlify'
 [outputFormats.headers]
-baseName       = "_headers"
+baseName       = '_headers'
 isPlainText    = true
-mediatype      = "text/netlify"
+mediatype      = 'text/netlify'
 notAlternative = true
 {{< /code-toggle >}}
 

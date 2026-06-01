@@ -16,7 +16,7 @@ There are three types of shortcodes: embedded, custom, and inline.
 
 Hugo's embedded shortcodes are pre-defined templates within the application. Refer to each shortcode's documentation for specific usage instructions and available arguments.
 
-{{% list-pages-in-section path=/shortcodes %}}
+{{% render-list-of-pages-in-section path=/shortcodes %}}
 
 ## Custom
 
@@ -34,7 +34,7 @@ Then call the shortcode from within markup:
 {{</* audio src=/audio/test.mp3 */>}}
 ```
 
-Learn more about creating shortcodes in the [shortcode templates] section.
+Learn more about creating shortcodes in the [shortcode templates][] section.
 
 ## Inline
 
@@ -42,16 +42,16 @@ An inline shortcode is a _shortcode_ template defined within content.
 
 Hugo's security model is based on the premise that template and configuration authors are trusted, but content authors are not. This model enables generation of HTML output safe against code injection.
 
-To conform with this security model, creating _shortcode_ templates within content is disabled by default. If you trust your content authors, you can enable this functionality in your site's configuration:
+To conform with this security model, creating _shortcode_ templates within content is disabled by default. If you trust your content authors, you can enable this functionality in your project configuration:
 
 {{< code-toggle file=hugo >}}
 [security]
 enableInlineShortcodes = true
 {{< /code-toggle >}}
 
-For more information see [configure security](/configuration/security).
+For more information see [configure security][].
 
-The following example demonstrates an inline shortcode, `date.inline`, that accepts a single positional argument: a date/time [layout string].
+The following example demonstrates an inline shortcode, `date.inline`, that accepts a single positional argument: a date/time [layout string][].
 
 ```text {file="content/example.md"}
 Today is
@@ -69,12 +69,12 @@ In the example above, the inline shortcode is executed twice: once upon definiti
 <p>Today is Thursday, January 30, 2025</p>
 ```
 
-Inline shortcodes process their inner content within the same context as regular _shortcode_ templates, allowing you to use any available [shortcode method].
+Inline shortcodes process their inner content within the same context as regular _shortcode_ templates, allowing you to use any available [shortcode method][].
 
 > [!note]
 > You cannot [nest](#nesting) inline shortcodes.
 
-Learn more about creating shortcodes in the [shortcode templates] section.
+Learn more about creating shortcodes in the [shortcode templates][] section.
 
 ## Calling
 
@@ -82,7 +82,7 @@ Shortcode calls involve three syntactical elements: tags, arguments, and notatio
 
 ### Tags
 
-Some shortcodes expect content between opening and closing tags. For example, the embedded [`details`] shortcode requires an opening and closing tag:
+Some shortcodes expect content between opening and closing tags. For example, the embedded [`details`][] shortcode requires an opening and closing tag:
 
 ```text
 {{</* details summary="See the details" */>}}
@@ -90,13 +90,13 @@ This is a **bold** word.
 {{</* /details */>}}
 ```
 
-Some shortcodes do not accept content. For example, the embedded [`instagram`] shortcode requires a single _positional_ argument:
+Some shortcodes do not accept content. For example, the embedded [`instagram`][] shortcode requires a single _positional_ argument:
 
 ```text
 {{</* instagram CxOWiQNP2MO */>}}
 ```
 
-Some shortcodes optionally accept content. For example, you can call the embedded [`qr`] shortcode with content:
+Some shortcodes optionally accept content. For example, you can call the embedded [`qr`][] shortcode with content:
 
 ```text
 {{</* qr */>}}
@@ -116,7 +116,7 @@ Refer to each shortcode's documentation for specific usage instructions and avai
 
 Shortcode arguments can be either _named_ or _positional_.
 
-Named arguments are passed as case-sensitive key-value pairs, as seen in this example with the embedded [`figure`] shortcode. The `src` argument, for instance, is required.
+Named arguments are passed as case-sensitive key-value pairs, as seen in this example with the embedded [`figure`][] shortcode. The `src` argument, for instance, is required.
 
 ```text
 {{</* figure src=/images/kitten.jpg */>}}
@@ -173,7 +173,7 @@ Standard|`{{</* foo */>}} ## Section 2 {{</* /foo */>}}`
 
 #### Markdown notation
 
-Hugo processes the shortcode before the page content is rendered by the Markdown renderer. This means, for instance, that Markdown headings inside a Markdown-notation shortcode will be included when invoking the [`TableOfContents`] method on the `Page` object.
+Hugo processes the shortcode before the page content is rendered by the Markdown renderer. This means, for instance, that Markdown headings inside a Markdown-notation shortcode will be included when invoking the [`TableOfContents`][] method on the `Page` object.
 
 #### Standard notation
 
@@ -203,7 +203,8 @@ Hugo renders this HTML:
 
 In the above, "Section 1" will be included when invoking the `TableOfContents` method, while "Section 2" will not.
 
-The shortcode author determines which notation to use. Consult each shortcode's documentation for specific usage instructions and available arguments.
+> [!note]
+> The shortcode author determines which notation to use. Consult each shortcode's documentation for specific usage instructions and available arguments.
 
 ## Nesting
 
@@ -219,11 +220,12 @@ Shortcodes (excluding [inline](#inline) shortcodes) can be nested, creating pare
 
 The [shortcode templates][nesting] section provides a detailed explanation and examples.
 
+[`TableOfContents`]: /methods/page/tableofcontents/
 [`details`]: /shortcodes/details
 [`figure`]: /shortcodes/figure
 [`instagram`]: /shortcodes/instagram
 [`qr`]: /shortcodes/qr
-[`TableOfContents`]: /methods/page/tableofcontents/
+[configure security]: /configuration/security/
 [layout string]: /functions/time/format/#layout-string
 [nesting]: /templates/shortcode/#nesting
 [shortcode method]: /templates/shortcode/#methods

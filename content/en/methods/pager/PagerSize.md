@@ -7,14 +7,13 @@ params:
   functions_and_methods:
     returnType: int
     signatures: [PAGER.PagerSize]
+aliases: [/methods/pager/pagesize/]
 ---
 
-{{< new-in 0.128.0 />}}
-
-The number of pages per pager is determined by the optional second argument passed to the [`Paginate`] method, falling back to the `pagerSize` as defined in your [site configuration].
+The number of pages per pager is determined by the optional second argument passed to the [`Paginate`] method, falling back to the `pagerSize` as defined in your [project configuration].
 
 [`Paginate`]: /methods/page/paginate/
-[site configuration]: /templates/pagination/#configuration
+[project configuration]: /templates/pagination/#configuration
 
 ```go-html-template
 {{ $pages := where site.RegularPages "Type" "posts" }}

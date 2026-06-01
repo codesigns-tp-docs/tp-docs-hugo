@@ -34,20 +34,20 @@ paginator
 
 ## Configuration
 
-See [configure pagination](/configuration/pagination).
+See [configure pagination][].
 
 ## Methods
 
 To paginate a `home`, `section`, `taxonomy`, or `term` page, invoke either of these methods on the `Page` object in the corresponding template:
 
-- [`Paginate`]
-- [`Paginator`]
+- [`Paginate`][]
+- [`Paginator`][]
 
 The `Paginate` method is more flexible, allowing you to:
 
 - Paginate any page collection
 - Filter, sort, and group the page collection
-- Override the number of pages per pager as defined in your site configuration
+- Override the number of pages per pager as defined in your project configuration
 
 By comparison, the `Paginator` method paginates the page collection passed into the template, and you cannot override the number of pages per pager.
 
@@ -101,7 +101,7 @@ When paginating conditionally, do not use the `compare.Conditional` function due
 
 ## Grouping
 
-Use pagination with any of the [grouping methods]. For example:
+Use pagination with any of the [grouping methods][]. For example:
 
 ```go-html-template
 {{ $pages := where site.RegularPages "Type" "posts" }}
@@ -138,13 +138,13 @@ The `terse` format has fewer controls and page slots, consuming less space when 
 ```
 
 > [!note]
-> To override Hugo's embedded pagination template, copy the [source code] to a file with the same name in the `layouts/_partials` directory, then call it from your templates using the [`partial`] function:
+> To override Hugo's embedded pagination template, copy the [source code][] to a file with the same name in the `layouts/_partials` directory, then call it from your templates using the [`partial`][] function:
 >
 > `{{ partial "pagination.html" . }}`
 
 Create custom navigation components using any of the `Pager` methods:
 
-{{% list-pages-in-section path=/methods/pager %}}
+{{% render-list-of-pages-in-section path=/methods/pager %}}
 
 ## Structure
 
@@ -163,7 +163,7 @@ content/
 └── _index.md
 ```
 
-And this site configuration:
+And this project configuration:
 
 {{< code-toggle file=hugo >}}
 [pagination]
@@ -204,7 +204,7 @@ public/
 └── index.html
 ```
 
-To disable alias generation for the first pager, change your site configuration:
+To disable alias generation for the first pager, change your project configuration:
 
 {{< code-toggle file=hugo >}}
 [pagination]
@@ -236,5 +236,6 @@ public/
 [`Paginate`]: /methods/page/paginate/
 [`Paginator`]: /methods/page/paginator/
 [`partial`]: /functions/partials/include/
+[configure pagination]: /configuration/pagination
 [grouping methods]: /quick-reference/page-collections/#group
 [source code]: <{{% eturl pagination %}}>

@@ -11,16 +11,14 @@ params:
 aliases: [/functions/tomath]
 ---
 
-{{< new-in 0.132.0 />}}
-
-Hugo uses an embedded instance of the [KaTeX] display engine to render mathematical markup to HTML. You do not need to install the KaTeX display engine.
+Hugo uses an embedded instance of the [KaTeX][] display engine to render mathematical markup to HTML. You do not need to install the KaTeX display engine.
 
 ```go-html-template
 {{ transform.ToMath "c = \\pm\\sqrt{a^2 + b^2}" }}
 ```
 
 > [!note]
-> By default, Hugo renders mathematical markup to [MathML], and does not require any CSS to display the result.
+> By default, Hugo renders mathematical markup to [MathML][], and does not require any CSS to display the result.
 >
 > To optimize rendering quality and accessibility, use the `htmlAndMathml` output option as described below. This approach requires an external stylesheet.
 
@@ -31,18 +29,18 @@ Hugo uses an embedded instance of the [KaTeX] display engine to render mathemati
 
 ## Options
 
-Pass a map of options as the second argument to the `transform.ToMath` function. The options below are a subset of the KaTeX [rendering options].
+Pass a map of options as the second argument to the `transform.ToMath` function. The options below are a subset of the KaTeX [rendering options][].
 
-displayMode
+`displayMode`
 : (`bool`) Whether to render in display mode instead of inline mode. Default is `false`.
 
-errorColor
-: (`string`) The color of the error messages expressed as an RGB [hexadecimal color]. Default is `#cc0000`.
+`errorColor`
+: (`string`) The color of the error messages expressed as an RGB [hexadecimal color][]. Default is `#cc0000`.
 
-fleqn
+`fleqn`
 : (`bool`) Whether to render flush left with a 2em left margin. Default is `false`.
 
-macros
+`macros`
 : (`map`) A map of macros to be used in the math expression. Default is `{}`.
 
   ```go-html-template
@@ -54,18 +52,24 @@ macros
   {{ transform.ToMath "\\addBar{y} + \\bold{H}" $opts }}
   ```
 
-minRuleThickness
+`minRuleThickness`
 : (`float`) The minimum thickness of the fraction lines in `em`. Default is `0.04`.
 
-output
+`output`
 : (`string`) Determines the markup language of the output, one of `html`, `mathml`, or `htmlAndMathml`. Default is `mathml`.
 
   With `html` and `htmlAndMathml` you must include the KaTeX style sheet within the `head` element of your base template.
 
   ```html
-  <link href="https://cdn.jsdelivr.net/npm/katex@0.16.23/dist/katex.min.css" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css"
+    integrity="sha384-WcoG4HRXMzYzfCgiyfrySxx90XSl2rxY5mnVY5TwtWE6KLrArNKn0T/mOgNL0Mmi"
+    crossorigin="anonymous"
+  >
+  ```
 
-strict
+`strict`
 : {{< new-in 0.147.6 />}}
 : (`string`) Controls how KaTeX handles LaTeX features that offer convenience but aren't officially supported, one of `error`, `ignore`, or `warn`. Default is `error`.
 
@@ -75,7 +79,7 @@ strict
 
   The `newLineInDisplayMode` error code, which flags the use of `\\` or `\newline` in display mode outside an array or tabular environment, is intentionally designed not to throw an error, despite this behavior being questionable.
 
-throwOnError
+`throwOnError`
 : (`bool`) Whether to throw a `ParseError` when KaTeX encounters an unsupported command or invalid LaTeX. Default is `true`.
 
 ## Error handling
@@ -93,7 +97,7 @@ The example below demonstrates error handing within a template.
 Instead of client-side JavaScript rendering of mathematical markup using MathJax or KaTeX, create a passthrough render hook which calls the `transform.ToMath` function.
 
 Step 1
-: Enable and configure the Goldmark [passthrough extension][] in your site configuration. The passthrough extension preserves raw Markdown within delimited snippets of text, including the delimiters themselves.
+: Enable and configure the Goldmark [passthrough extension][] in your project configuration. The passthrough extension preserves raw Markdown within delimited snippets of text, including the delimiters themselves.
 
 [passthrough extension]: /configuration/markup/#passthrough
 
@@ -132,12 +136,29 @@ Step 3
   <head>
     {{ $noop := .WordCount }}
     {{ if .Page.Store.Get "hasMath" }}
-      <link href="https://cdn.jsdelivr.net/npm/katex@0.16.23/dist/katex.min.css" rel="stylesheet">
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css"
+        integrity="sha384-WcoG4HRXMzYzfCgiyfrySxx90XSl2rxY5mnVY5TwtWE6KLrArNKn0T/mOgNL0Mmi"
+        crossorigin="anonymous"
+      >
     {{ end }}
   </head>
   ```
 
   In the above, note the use of a [noop](g) statement to force content rendering before we check the value of `hasMath` with the `Store.Get` method.
+
+  > [!note]
+  > This conditional approach only identifies math on the current page. Mathematical expressions will not display correctly when one page's content is embedded within another. For example, if a [list page](g) calls the [`Content`][] or [`Summary`][] methods while ranging through its page collection, the list page will not load the KaTeX CSS.
+  >
+  > If this affects your site, use this conditional logic instead:
+  >
+  > ```go-html-template {file="layouts/baseof.html" copy=true}
+  > {{ $noop := .WordCount }}
+  > {{ if or (.Page.Store.Get "hasMath") .IsNode }}
+  >   <link rel="stylesheet" href="...">
+  > {{ end }}
+  > ```
 
 Step 4
 : Add some mathematical markup to your content, then test.
@@ -156,7 +177,7 @@ Step 4
 
 {{< new-in 0.144.0 />}}
 
-You can also use the `transform.ToMath` function to render chemical equations, leveraging the `\ce` and `\pu` functions from the [mhchem] package.
+You can also use the `transform.ToMath` function to render chemical equations, leveraging the `\ce` and `\pu` functions from the [`mhchem`][] package.
 
 ```text
 $$C_p[\ce{H2O(l)}] = \pu{75.3 J // mol K}$$
@@ -164,8 +185,10 @@ $$C_p[\ce{H2O(l)}] = \pu{75.3 J // mol K}$$
 
 $$C_p[\ce{H2O(l)}] = \pu{75.3 J // mol K}$$
 
-[hexadecimal color]: https://developer.mozilla.org/en-US/docs/Web/CSS/hex-color
 [KaTeX]: https://katex.org/
 [MathML]: https://developer.mozilla.org/en-US/docs/Web/MathML
-[mhchem]: https://mhchem.github.io/MathJax-mhchem/
+[`Content`]: /methods/page/content/
+[`Summary`]: /methods/page/summary/
+[`mhchem`]: https://mhchem.github.io/MathJax-mhchem/
+[hexadecimal color]: https://developer.mozilla.org/en-US/docs/Web/CSS/hex-color
 [rendering options]: https://katex.org/docs/options.html

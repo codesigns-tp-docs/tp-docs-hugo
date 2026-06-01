@@ -30,6 +30,9 @@ Their language is assigned according to the language code added as a suffix to t
 By having the same path and base file name, the content pieces are linked together as translated pages.
 
 > [!note]
+> The language code in a file name must be lowercase. For example, use `about.en-us.md` instead of `about.en-US.md`.
+
+> [!note]
 > If a file has no language code, it will be assigned the default language.
 
 ### Translation by content directory
@@ -37,15 +40,15 @@ By having the same path and base file name, the content pieces are linked togeth
 This system uses different content directories for each of the languages. Each language's `content` directory is set using the `contentDir` parameter.
 
 {{< code-toggle file=hugo >}}
-languages:
-  en:
-    weight: 10
-    languageName: "English"
-    contentDir: "content/english"
-  fr:
-    weight: 20
-    languageName: "Français"
-    contentDir: "content/french"
+[languages.en]
+contentDir = 'content/english'
+label = "English"
+weight = 10
+
+[languages.fr]
+contentDir = 'content/french'
+label = "Français"
+weight = 20
 {{< /code-toggle >}}
 
 The value of `contentDir` can be any valid path -- even absolute path references. The only restriction is that the content directories cannot overlap.
@@ -110,46 +113,13 @@ If, across the linked bundles, two or more files share the same basename, only o
 > [!note]
 > Page Bundle resources follow the same language assignment logic as content files, both by file name (`image.jpg`, `image.fr.jpg`) and by directory (`english/about/header.jpg`, `french/about/header.jpg`).
 
-## Reference translated content
-
-To create a list of links to translated content, use a template similar to the following:
-
-```go-html-template {file="layouts/_partials/i18nlist.html"}
-{{ if .IsTranslated }}
-<h4>{{ i18n "translations" }}</h4>
-<ul>
-  {{ range .Translations }}
-  <li>
-    <a href="{{ .RelPermalink }}">{{ .Language.Lang }}: {{ .LinkTitle }}{{ if .IsPage }} ({{ i18n "wordCount" . }}){{ end }}</a>
-  </li>
-  {{ end }}
-</ul>
-{{ end }}
-```
-
-The above can be put in a _partial_ template then included in any template. It will not print anything if there are no translations for a given page.
-
-The above also uses the [`i18n` function][i18func] described in the next section.
-
-### List all available languages
-
-`.AllTranslations` on a `Page` can be used to list all translations, including the page itself. On the home page it can be used to build a language navigator:
-
-```go-html-template {file="layouts/_partials/allLanguages.html"}
-<ul>
-{{ range $.Site.Home.AllTranslations }}
-<li><a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a></li>
-{{ end }}
-</ul>
-```
-
 ## Translation of strings
 
 See the [`lang.Translate`] template function.
 
 ## Localization
 
-The following localization examples assume your site's primary language is English, with translations to French and German.
+The following localization examples assume your project's primary language is English, with translations to French and German.
 
 {{< code-toggle file=hugo >}}
 defaultContentLanguage = 'en'
@@ -157,15 +127,15 @@ defaultContentLanguage = 'en'
 [languages]
 [languages.en]
 contentDir = 'content/en'
-languageName = 'English'
+label = 'English'
 weight = 1
 [languages.fr]
 contentDir = 'content/fr'
-languageName = 'Français'
+label = 'Français'
 weight = 2
 [languages.de]
 contentDir = 'content/de'
-languageName = 'Deutsch'
+label = 'Deutsch'
 weight = 3
 
 {{< /code-toggle >}}
@@ -253,8 +223,8 @@ See [lang.FormatPercent] for details.
 Localization of menu entries depends on how you define them:
 
 - When you define menu entries [automatically] using the section pages menu, you must use translation tables to localize each entry.
-- When you define menu entries [in front matter], they are already localized based on the front matter itself. If the front matter values are insufficient, use translation tables to localize each entry.
-- When you define menu entries [in site configuration], you must create language-specific menu entries under each language key. If the names of the menu entries are insufficient, use translation tables to localize each entry.
+- When you define menu entries in [front matter], they are already localized based on the front matter itself. If the front matter values are insufficient, use translation tables to localize each entry.
+- When you define menu entries in your [project configuration], you must create language-specific menu entries under each language key. If the names of the menu entries are insufficient, use translation tables to localize each entry.
 
 ### Create language-specific menu entries
 
@@ -264,8 +234,8 @@ For a simple menu with a small number of entries, use a single configuration fil
 
 {{< code-toggle file=hugo >}}
 [languages.de]
-languageCode = 'de-DE'
-languageName = 'Deutsch'
+label = 'Deutsch'
+locale = 'de-DE'
 weight = 1
 
 [[languages.de.menus.main]]
@@ -279,8 +249,8 @@ pageRef = '/services'
 weight = 20
 
 [languages.en]
-languageCode = 'en-US'
-languageName = 'English'
+label = 'English'
+locale = 'en-US'
 weight = 2
 
 [[languages.en.menus.main]]
@@ -341,9 +311,9 @@ It queries the translation table for the current language using the menu entry's
 The `identifier` depends on how you define menu entries:
 
 - If you define the menu entry [automatically] using the section pages menu, the `identifier` is the page's `.Section`.
-- If you define the menu entry [in site configuration] or [in front matter], set the `identifier` property to the desired value.
+- If you define the menu entry in your [project configuration] or in [front matter], set the `identifier` property to the desired value.
 
-For example, if you define menu entries in site configuration:
+For example, if you define menu entries in project configuration:
 
 {{< code-toggle file=hugo >}}
 [[menus.main]]
@@ -369,7 +339,7 @@ services = 'Leistungen'
 
 If a string does not have a translation for the current language, Hugo will use the value from the default language. If no default value is set, an empty string will be shown.
 
-While translating a Hugo website, it can be handy to have a visual indicator of missing translations. The [`enableMissingTranslationPlaceholders` configuration option][config] will flag all untranslated strings with the placeholder `[i18n] identifier`, where `identifier` is the id of the missing translation.
+While translating a Hugo website, it can be handy to have a visual indicator of missing translations. The [`enableMissingTranslationPlaceholders`][] configuration option will flag all untranslated strings with the placeholder `[i18n] identifier`, where `identifier` is the id of the missing translation.
 
 > [!note]
 > Hugo will generate your website with these missing translation placeholders. It might not be suitable for production environments.
@@ -379,7 +349,7 @@ For merging of content from other languages (i.e. missing content translations),
 To track down missing translation strings, run Hugo with the `--printI18nWarnings` flag:
 
 ```sh
-hugo --printI18nWarnings | grep i18n
+hugo build --printI18nWarnings | grep i18n
 i18n|MISSING_TRANSLATION|en|wordCount
 ```
 
@@ -409,21 +379,20 @@ hugo new content content/de/post/test.md
 ```
 
 [`absLangURL`]: /functions/urls/abslangurl/
+[`enableMissingTranslationPlaceholders`]: /configuration/all/#enablemissingtranslationplaceholders
 [`lang.Translate`]: /functions/lang/translate
 [`relLangURL`]: /functions/urls/rellangurl/
 [`slug`]: /content-management/urls/#slug
 [`time.Format`]: /functions/time/format/
 [`url`]: /content-management/urls/#url
 [automatically]: /content-management/menus/#define-automatically
-[config]: /configuration/
 [configuration directory]: /configuration/introduction/#configuration-directory
 [example menu template]: /templates/menu/#example
-[i18func]: /functions/lang/translate/
-[in front matter]: /content-management/menus/#define-in-front-matter
-[in site configuration]: /content-management/menus/#define-in-site-configuration
+[front matter]: /content-management/menus/#define-in-front-matter
 [lang.FormatAccounting]: /functions/lang/formataccounting/
 [lang.FormatCurrency]: /functions/lang/formatcurrency/
 [lang.FormatNumber]: /functions/lang/formatnumber/
 [lang.FormatNumberCustom]: /functions/lang/formatnumbercustom/
 [lang.FormatPercent]: /functions/lang/formatpercent/
 [lang.Merge]: /functions/lang/merge/
+[project configuration]: /content-management/menus/#define-in-project-configuration

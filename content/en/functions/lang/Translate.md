@@ -11,29 +11,34 @@ params:
 aliases: [/functions/i18n]
 ---
 
-The `lang.Translate` function returns the value associated with given key as defined in the translation table for the current language.
+The `lang.Translate` function returns the value associated with the given key by searching the current language's [translation tables](#translation-tables), then those for the [`defaultContentLanguage`][].
 
-If the key is not found in the translation table for the current language, the `lang.Translate` function falls back to the translation table for the [`defaultContentLanguage`].
-
-If the key is not found in the translation table for the `defaultContentLanguage`, the `lang.Translate` function returns an empty string.
+If not found, the function returns an empty string.
 
 > [!note]
-> To list missing and fallback translations, use the `--printI18nWarnings` flag when building your site.
+> To list missing and fallback translations, set [`printI18nWarnings`][] to `true` in your project configuration, or use the `--printI18nWarnings` flag when building your project.
 >
-> To render placeholders for missing and fallback translations, set [`enableMissingTranslationPlaceholders`] to `true` in your site configuration.
+> To render placeholders for missing and fallback translations, set [`enableMissingTranslationPlaceholders`][] to `true` in your project configuration.
 
 ## Translation tables
 
-Create translation tables in the `i18n` directory, naming each file according to [RFC 5646]. Translation tables may be JSON, TOML, or YAML. For example:
+{{% glossary-term "translation table" %}}
+
+For example:
 
 ```text
 i18n/en.toml
-i18n/en-US.toml
+i18n/pt-BR.toml
 ```
 
-The base name must match the [language key] as defined in your site configuration.
+Hugo searches for a matching translation table using the following base names, in order:
 
-Artificial languages with private use subtags as defined in [RFC 5646 § 2.2.7] are also supported. You may omit the `art-x-` prefix for brevity. For example:
+1. The [`locale`][] of the current language
+1. The [key][] of the current language
+1. The locale of the [`defaultContentLanguage`][]
+1. The key of the [`defaultContentLanguage`][]
+
+Artificial languages with private use subtags as defined in [RFC 5646 § 2.2.7][] are also supported. You may omit the `art-x-` prefix for brevity. For example:
 
 ```text
 i18n/art-x-hugolang.toml
@@ -45,7 +50,7 @@ i18n/hugolang.toml
 
 ## Simple translations
 
-Let's say your multilingual site supports two languages, English and Polish. Create a translation table for each language in the `i18n` directory.
+Let's say your multilingual project supports two languages, English and Polish. Create a translation table for each language in the `i18n` directory.
 
 ```text
 i18n/
@@ -86,7 +91,7 @@ When viewing the Polish language site:
 
 ## Translations with pluralization
 
-Let's say your multilingual site supports two languages, English and Polish. Create a translation table for each language in the `i18n` directory.
+Let's say your multilingual project supports two languages, English and Polish. Create a translation table for each language in the `i18n` directory.
 
 ```text
 i18n/
@@ -94,7 +99,7 @@ i18n/
 └── pl.toml
 ```
 
-The Unicode [CLDR Plural Rules chart] describes the pluralization categories for each language.
+The Unicode [CLDR Plural Rules chart][CLDR] describes the pluralization categories for each language.
 
 The English translation table:
 
@@ -177,40 +182,40 @@ Template code:
 
 ## Reserved keys
 
-Hugo uses the [go-i18n] package to look up values in translation tables. This package reserves the following keys for internal use:
+Hugo uses the [`nicksnyder/go-i18n`][] package to look up values in translation tables. This package reserves the following keys for internal use:
 
-id
+`id`
 : (`string`) Uniquely identifies the message.
 
-description
+`description`
 : (`string`) Describes the message to give additional context to translators that may be relevant for translation.
 
-hash
+`hash`
 : (`string`) Uniquely identifies the content of the message that this message was translated from.
 
-leftdelim
+`leftdelim`
 : (`string`) The left Go template delimiter.
 
-rightdelim
+`rightdelim`
 : (`string`) The right Go template delimiter.
 
-zero
-: (`string`) The content of the message for the [CLDR] plural form "zero".
+`zero`
+: (`string`) The content of the message for the [CLDR][] plural form "zero".
 
-one
-: (`string`) The content of the message for the [CLDR] plural form "one".
+`one`
+: (`string`) The content of the message for the [CLDR][] plural form "one".
 
-two
-: (`string`) The content of the message for the [CLDR] plural form "two".
+`two`
+: (`string`) The content of the message for the [CLDR][] plural form "two".
 
-few
-: (`string`) The content of the message for the [CLDR] plural form "few".
+`few`
+: (`string`) The content of the message for the [CLDR][] plural form "few".
 
-many
-: (`string`) The content of the message for the [CLDR] plural form "many".
+`many`
+: (`string`) The content of the message for the [CLDR][] plural form "many".
 
-other
-: (`string`) The content of the message for the [CLDR] plural form "other".
+`other`
+: (`string`) The content of the message for the [CLDR][] plural form "other".
 
 If you need to provide a translation for one of the reserved keys, you can prepend the word with an underscore. For example:
 
@@ -236,11 +241,11 @@ Then in your templates:
 {{ T "_other" }} → otro
 ```
 
+[CLDR]: https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
+[RFC 5646 § 2.2.7]: https://datatracker.ietf.org/doc/html/rfc5646#section-2.2.7
 [`defaultContentLanguage`]: /configuration/all/#defaultcontentlanguage
 [`enableMissingTranslationPlaceholders`]: /configuration/all/#enablemissingtranslationplaceholders
-[CLDR]: https://www.unicode.org/cldr/charts/43/supplemental/language_plural_rules.html
-[CLDR Plural Rules chart]: https://www.unicode.org/cldr/charts/43/supplemental/language_plural_rules.html
-[go-i18n]: https://github.com/nicksnyder/go-i18n
-[language key]: /configuration/languages/#language-keys
-[RFC 5646]: https://datatracker.ietf.org/doc/html/rfc5646
-[RFC 5646 § 2.2.7]: https://datatracker.ietf.org/doc/html/rfc5646#section-2.2.7
+[`locale`]: /configuration/all/#locale
+[`nicksnyder/go-i18n`]: https://github.com/nicksnyder/go-i18n
+[`printI18nWarnings`]: /configuration/all/#printi18nwarnings
+[key]: /configuration/languages/#language-keys

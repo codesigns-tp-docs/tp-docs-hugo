@@ -51,50 +51,50 @@ Which looks like this in your browser:
 
 ## Arguments
 
-src
+`src`
 : (`string`) The `src` attribute of the `img` element. Typically this is a [page resource](g) or a [global resource](g).
 
-alt
+`alt`
 : (`string`) The `alt` attribute of the `img` element.
 
-width
+`width`
 : (`int`) The `width` attribute of the `img` element.
 
-height
+`height`
 : (`int`) The `height` attribute of the `img` element.
 
-loading
+`loading`
 : (`string`) The `loading` attribute of the `img` element.
 
-class
+`class`
 : (`string`) The `class` attribute of the `figure` element.
 
-link
+`link`
 : (`string`) The `href` attribute of the anchor element that wraps the `img` element.
 
-target
+`target`
 : (`string`) The `target` attribute of the anchor element that wraps the `img` element.
 
-rel
+`rel`
 : (`rel`) The `rel` attribute of the anchor element that wraps the `img` element.
 
-title
+`title`
 : (`string`) Within the `figurecaption` element, the title is at the top, wrapped within an `h4` element.
 
-caption
+`caption`
 : (`string`) Within the `figurecaption` element, the caption is at the bottom and may contain plain text or markdown.
 
-attr
+`attr`
 : (`string`) Within the `figurecaption` element, the attribution appears next to the caption and may contain plain text or markdown.
 
-attrlink
+`attrlink`
 : (`string`) The `href` attribute of the anchor element that wraps the attribution.
 
 ## Image location
 
 The `figure` shortcode resolves internal Markdown destinations by looking for a matching [page resource](g), falling back to a matching [global resource](g). Remote destinations are passed through, and the render hook will not throw an error or warning if unable to resolve a destination.
 
-You must place global resources in the `assets` directory. If you have placed your resources in the `static` directory, and you are unable or unwilling to move them, you must mount the `static` directory to the `assets` directory by including both of these entries in your site configuration:
+You must place global resources in the `assets` directory. If you have placed your resources in the `static` directory, and you are unable or unwilling to move them, you must mount the `static` directory to the `assets` directory by including both of these entries in your project configuration:
 
 {{< code-toggle file=hugo >}}
 [[module.mounts]]
